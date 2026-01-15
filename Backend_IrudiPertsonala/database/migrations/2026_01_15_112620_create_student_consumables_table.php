@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consumables', function (Blueprint $table) {
+        Schema::create('student_consumables', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('batch');
-            $table->string('brand');
-            $table->int('stock');
-            $table->int('min_stock');
-            $table->date('expiration_date');
-            $table->int('category_id');
+            $table->foreignId('student_id')->constrained();
+            $table->foreignId('equipment_id')->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consumables');
+        Schema::dropIfExists('student_consumables');
     }
 };
