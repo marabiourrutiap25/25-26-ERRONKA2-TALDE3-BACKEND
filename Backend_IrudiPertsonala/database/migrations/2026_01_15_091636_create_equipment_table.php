@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->string('label');
+            $table->string('name');
+            $table->text('description');
+            $table->string('brand');
+            $table->foreignId('equipment_categories_id')->constrained();
             $table->timestamps();
         });
     }
