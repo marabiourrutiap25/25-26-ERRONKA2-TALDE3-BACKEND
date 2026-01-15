@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('min_stock');
             $table->date('expiration_date');
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('consumables_categorie_id')->constrained();
             $table->timestamps();
         });
     }
