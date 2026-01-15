@@ -17,10 +17,10 @@ return new class extends Migration
             $table->text('description');
             $table->string('batch');
             $table->string('brand');
-            $table->int('stock');
-            $table->int('min_stock');
+            $table->integer('stock');
+            $table->integer('min_stock');
             $table->date('expiration_date');
-            $table->int('category_id');
+            $table->foreignId('category_id')->constrained();
             $table->timestamps();
         });
     }

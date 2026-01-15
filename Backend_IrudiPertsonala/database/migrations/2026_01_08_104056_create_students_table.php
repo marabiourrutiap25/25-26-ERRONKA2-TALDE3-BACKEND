@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surnames');
-            $table->int('group_id');
+            $table->foreignId('group_id')->constrained();
             $table->timestamps();
         });
     }
