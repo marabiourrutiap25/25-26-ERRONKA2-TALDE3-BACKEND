@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->char('type');
             $table->date('data');
-            $table->int('student_id');
+            $table->foreignId('student_id')->constrained();
             $table->timestamps();
         });
     }

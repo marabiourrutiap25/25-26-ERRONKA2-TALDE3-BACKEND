@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('consumables_categories', function (Blueprint $table) {
             $table->id();
-            $table->int('student_id');
-            $table->int('consumable_id');
+            $table->integer('student_id');
+            $table->foreignId('consumable_id')->constrained();
             $table->date('date');
-            $table->int('quantity');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
