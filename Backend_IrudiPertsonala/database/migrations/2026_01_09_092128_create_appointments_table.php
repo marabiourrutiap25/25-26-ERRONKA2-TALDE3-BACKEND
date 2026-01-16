@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->integer('seat');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->text('comments')->nullable();
+            $table->foreignId('student_id')->constrained();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
