@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             AppointmentServicesSeeder::class,
             StudentConsumablesSeeder::class,
             StudentEquipmentsSeeder::class,
+            UsersSeeder::class,
         ]);
     }
 }
