@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointment_services', function (Blueprint $table) {
             $table->id();
-            $table->text('comments');
+            $table->text('comments')->nullable();
             $table->foreignId('appointment_id')->constrained();
             $table->foreignId('service_id')->constrained();
             $table->timestamps();

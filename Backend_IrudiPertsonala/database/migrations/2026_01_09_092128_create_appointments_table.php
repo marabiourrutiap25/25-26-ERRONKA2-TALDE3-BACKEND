@@ -17,9 +17,9 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->text('comments');
+            $table->text('comments')->nullable();
             $table->foreignId('student_id')->constrained();
-            $table->foreignId('client_id')->constrained();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

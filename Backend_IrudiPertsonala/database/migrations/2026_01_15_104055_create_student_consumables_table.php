@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('student_id')->constrained();
             $table->foreignId('consumable_id')->constrained();
             $table->date('date');
-            $table->integer('quantity');
+            $table->integer('quantity')->nullable();
             $table->timestamps();
         });
     }

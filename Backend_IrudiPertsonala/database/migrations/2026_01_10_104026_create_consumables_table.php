@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('consumables', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->string('batch');
-            $table->string('brand');
+            $table->text('description')->nullable();
+            $table->string('batch')->nullable();
+            $table->string('brand')->nullable();
             $table->integer('stock');
-            $table->integer('min_stock');
-            $table->date('expiration_date');
-            $table->foreignId('consumables_categorie_id')->constrained();
+            $table->integer('min_stock')->nullable();
+            $table->date('expiration_date')->nullable();
+            $table->foreignId('consumables_categorie_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
