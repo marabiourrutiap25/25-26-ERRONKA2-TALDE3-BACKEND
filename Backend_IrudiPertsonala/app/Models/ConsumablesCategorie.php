@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ConsumablesCategorie extends Model
 {
+    protected $fillable = ['name'];
     public function consumable(): HasMany
     {
         return $this->HasMany(Consumable::class);

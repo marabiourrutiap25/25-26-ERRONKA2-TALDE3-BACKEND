@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Schedules extends Model
 {
+    protected $fillable = [
+        'day',
+        'start_date',
+        'end_date',
+        'start_time',
+        'end_time',
+        'group_id',
+    ];
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);

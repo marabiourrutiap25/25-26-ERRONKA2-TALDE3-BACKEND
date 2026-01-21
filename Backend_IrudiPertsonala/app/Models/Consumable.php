@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 class Consumable extends Model
 {
+    protected $fillable = [
+        'name',
+        'description',
+        'batch',
+        'brand',
+        'stock',
+        'min_stock',
+        'expiration_date',
+        'consumables_categorie_id',
+    ];
     public function consumablescategorie(): BelongsTo
     {
         return $this->BelongsTo(ConsumablesCategorie::class);

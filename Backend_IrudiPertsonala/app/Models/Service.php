@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Service extends Model
 {
+
+    protected $fillable = [
+        'name',
+        'price',
+        'home_price',
+        'duration',
+        'service_categories_id',
+    ];
     public function serviceCategories(): BelongsTo
     {
         return $this->belongsTo(ServiceCategorie::class);

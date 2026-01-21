@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EquipmentCategorie extends Model
 {
+    protected $fillable = ['name'];
     public function equipment(): HasMany
     {
         return $this->hasMany(Equipment::class);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceCategorie extends Model
 {
+    protected $fillable = ['name'];
     public function service(): HasMany
     {
         return $this->hasMany(Service::class);

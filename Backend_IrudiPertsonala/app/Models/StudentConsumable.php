@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StudentConsumable extends Model
 {
+
+    protected $fillable = [
+        'student_id',
+        'consumable_id',
+        'date',
+        'quantity',
+    ];
     public function consumable(): BelongsTo
     {
         return $this->BelongsTo(Consumable::class);

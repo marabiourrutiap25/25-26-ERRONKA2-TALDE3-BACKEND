@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Student extends Model
 {
+    protected $fillable = [
+        'name',
+        'surnames',
+        'group_id',
+    ];
     public function studentconsumable(): HasMany
     {
         return $this->hasMany(StudentConsumable::class);

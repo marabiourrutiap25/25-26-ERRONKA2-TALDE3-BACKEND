@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
+    protected $fillable = ['name'];
+    
     public function student(): HasMany
     {
         return $this->hasMany(Student::class);

@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Equipment extends Model
 {
+    protected $fillable = [
+        'label',
+        'name',
+        'description',
+        'brand',
+        'equipment_categories_id',
+    ];
     public function equipmentCategories(): BelongsTo
     {
         return $this->belongsTo(EquipmentCategorie::class);
