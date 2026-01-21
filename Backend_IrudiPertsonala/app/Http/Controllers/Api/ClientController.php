@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\EquipmentCategorie;
+use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class EquipmentCategoryController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $equipmentCategories = EquipmentCategorie::all();
+        $clients = Client::all();
         return response()->json([
                 'success' => true,
-                'data' => $equipmentCategories
+                'data' => $clients
             ], Response::HTTP_OK);
     }
 
@@ -27,13 +28,17 @@ class EquipmentCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'surnames' => 'required|string|max:255',
+            'telephone' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'home_client' => 'required|boolean',
         ]);
 
-        $equipmentCategory = EquipmentCategorie::create($validated);
+        $client = Client::create($validated);
 
         return response()->json([
                 'success' => true,
-                'message' => 'Ekipamendu Kategoria sortu egin da'
+                'message' => 'Bezeroa sortu egin da',
             ], Response::HTTP_CREATED);
     }
 
@@ -42,17 +47,17 @@ class EquipmentCategoryController extends Controller
      */
     public function show(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $client = Client::find($id);
 
-        if (!$equipmentCategory){
+        if (!$client){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Bezero id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             return response()->json([
                     'success' => true,
-                    'data' => $equipmentCategory
+                    'data' => $client
                 ], Response::HTTP_OK); 
         }
     }
@@ -62,23 +67,27 @@ class EquipmentCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipmentCategory= EquipmentCategorie::find($id);
+        $client= Client::find($id);
 
-        if (!$equipmentCategory){
+        if (!$client){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Bezeroen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'surnames' => 'required|string|max:255',
+                'telephone' => 'nullable|string|max:255',
+                'email' => 'nullable|string|max:255',
+                'home_client' => 'required|boolean',
             ]);
 
-            $equipmentCategory->update($validated);
+            $client->update($validated);
 
             return response()->json([
                     'success' => true,
-                    'message' => 'Ekipamendu Kategoria eguneratu da',
+                    'message' => 'Bezeroa eguneratu da',
                 ], Response::HTTP_OK); 
         }
     }
@@ -88,17 +97,17 @@ class EquipmentCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
-        if (!$equipmentCategory){
+        $client = Client::find($id);
+        if (!$client){
             return response()->json([
                 'success' => false,
-                'data' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'data' => 'Bezeroen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
-            $equipmentCategory->delete();
+            $client->delete();
             return response()->json([
                     'success' => true,
-                    'data' => 'Ekipamendu Kategoria ezabatuta'
+                    'data' => 'Bezeroa ezabatuta'
                 ], Response::HTTP_OK); 
         }
     }

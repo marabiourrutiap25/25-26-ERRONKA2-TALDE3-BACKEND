@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\EquipmentCategorie;
+use App\Http\Controllers\Controller;
+use App\Models\ServiceCategorie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class EquipmentCategoryController extends Controller
+class ServiceCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $equipmentCategories = EquipmentCategorie::all();
+        $serviceCategories = ServiceCategorie::all();
         return response()->json([
                 'success' => true,
-                'data' => $equipmentCategories
+                'data' => $serviceCategories
             ], Response::HTTP_OK);
     }
 
@@ -29,11 +30,11 @@ class EquipmentCategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $equipmentCategory = EquipmentCategorie::create($validated);
+        $serviceCategory = ServiceCategorie::create($validated);
 
         return response()->json([
                 'success' => true,
-                'message' => 'Ekipamendu Kategoria sortu egin da'
+                'message' => 'Zerbitzu Kategoria sortu egin da'
             ], Response::HTTP_CREATED);
     }
 
@@ -42,17 +43,17 @@ class EquipmentCategoryController extends Controller
      */
     public function show(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $serviceCategory = ServiceCategorie::find($id);
 
-        if (!$equipmentCategory){
+        if (!$serviceCategory){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Zerbitzu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             return response()->json([
                     'success' => true,
-                    'data' => $equipmentCategory
+                    'data' => $serviceCategory
                 ], Response::HTTP_OK); 
         }
     }
@@ -62,23 +63,23 @@ class EquipmentCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipmentCategory= EquipmentCategorie::find($id);
+        $serviceCategory= ServiceCategorie::find($id);
 
-        if (!$equipmentCategory){
+        if (!$serviceCategory){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Zerbitzu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
             ]);
 
-            $equipmentCategory->update($validated);
+            $serviceCategory->update($validated);
 
             return response()->json([
                     'success' => true,
-                    'message' => 'Ekipamendu Kategoria eguneratu da',
+                    'message' => 'Zerbitzu Kategoria eguneratu da',
                 ], Response::HTTP_OK); 
         }
     }
@@ -88,17 +89,17 @@ class EquipmentCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
-        if (!$equipmentCategory){
+        $serviceCategory = ServiceCategorie::find($id);
+        if (!$serviceCategory){
             return response()->json([
                 'success' => false,
-                'data' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'data' => 'Zerbitzu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
-            $equipmentCategory->delete();
+            $serviceCategory->delete();
             return response()->json([
                     'success' => true,
-                    'data' => 'Ekipamendu Kategoria ezabatuta'
+                    'data' => 'Zerbitzu Kategoria ezabatuta'
                 ], Response::HTTP_OK); 
         }
     }

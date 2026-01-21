@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\EquipmentCategorie;
+use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
-class EquipmentCategoryController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $equipmentCategories = EquipmentCategorie::all();
+        $services = Service::all();
         return response()->json([
                 'success' => true,
-                'data' => $equipmentCategories
+                'data' => $services
             ], Response::HTTP_OK);
     }
 
@@ -27,13 +28,17 @@ class EquipmentCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'home_price' => 'required|numeric|min:0',
+            'duration' => 'nullable|integer|min:0',
+            'service_categories_id' => 'required|integer|exists:service_categories,id',
         ]);
 
-        $equipmentCategory = EquipmentCategorie::create($validated);
+        $equipment = Service::create($validated);
 
         return response()->json([
                 'success' => true,
-                'message' => 'Ekipamendu Kategoria sortu egin da'
+                'message' => 'Zerbitzua sortu egin da',
             ], Response::HTTP_CREATED);
     }
 
@@ -42,17 +47,17 @@ class EquipmentCategoryController extends Controller
      */
     public function show(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $service = Service::find($id);
 
-        if (!$equipmentCategory){
+        if (!$service){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Zerbitzuaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             return response()->json([
                     'success' => true,
-                    'data' => $equipmentCategory
+                    'data' => $service
                 ], Response::HTTP_OK); 
         }
     }
@@ -62,23 +67,27 @@ class EquipmentCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipmentCategory= EquipmentCategorie::find($id);
+        $service= Service::find($id);
 
-        if (!$equipmentCategory){
+        if (!$service){
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'message' => 'Ekipamenduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'home_price' => 'required|numeric|min:0',
+                'duration' => 'nullable|integer|min:0',
+                'service_categories_id' => 'required|integer|exists:service_categories,id',
             ]);
 
-            $equipmentCategory->update($validated);
+            $service->update($validated);
 
             return response()->json([
                     'success' => true,
-                    'message' => 'Ekipamendu Kategoria eguneratu da',
+                    'message' => 'Zerbitzua eguneratu da',
                 ], Response::HTTP_OK); 
         }
     }
@@ -88,17 +97,17 @@ class EquipmentCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
-        if (!$equipmentCategory){
+        $service = Service::find($id);
+        if (!$service){
             return response()->json([
                 'success' => false,
-                'data' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'data' => 'Zerbitzuaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND); 
         } else {
-            $equipmentCategory->delete();
+            $service->delete();
             return response()->json([
                     'success' => true,
-                    'data' => 'Ekipamendu Kategoria ezabatuta'
+                    'data' => 'Zerbitzua ezabatuta'
                 ], Response::HTTP_OK); 
         }
     }
