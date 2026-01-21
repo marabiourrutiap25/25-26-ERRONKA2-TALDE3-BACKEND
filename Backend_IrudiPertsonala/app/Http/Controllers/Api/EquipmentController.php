@@ -30,14 +30,14 @@ class EquipmentController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',
-            'equipment_categories_id' => 'required|integer',
+            'equipment_categories_id' => 'required|integer|exists:equipment_categories,id',
         ]);
 
         $equipment = Equipment::create($validated);
 
         return response()->json([
                 'success' => true,
-                'message' => 'Ekipamendua sortu egin da'
+                'message' => 'Ekipamendua sortu egin da',
             ], Response::HTTP_CREATED);
     }
 
