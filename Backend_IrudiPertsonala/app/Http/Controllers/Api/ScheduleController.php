@@ -4,19 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Schedules;
 
 class ScheduleController extends Controller
 {
-    // GET /api/schedule
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $schedules = Schedules::all();
-
-        return response()->json($schedules, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $schedules
+        ], Response::HTTP_OK);
     }
 
-    // POST /api/schedule
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -30,32 +37,44 @@ class ScheduleController extends Controller
 
         $schedule = Schedules::create($validated);
 
-        return response()->json($schedule, 201);
+        return response()->json([
+            'success' => true,
+            'message' => 'Ordutegia sortu egin da'
+        ], Response::HTTP_CREATED);
     }
 
-    // GET /api/schedule/{id}
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $schedule = Schedules::find($id);
 
         if (!$schedule) {
             return response()->json([
-                'message' => 'Ordutegia ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Ordutegiaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($schedule, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $schedule
+        ], Response::HTTP_OK);
     }
 
-    // PUT /api/schedule/{id}
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         $schedule = Schedules::find($id);
 
         if (!$schedule) {
             return response()->json([
-                'message' => 'Ordutegia ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Ordutegiaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $validated = $request->validate([
@@ -69,24 +88,31 @@ class ScheduleController extends Controller
 
         $schedule->update($validated);
 
-        return response()->json($schedule, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Ordutegia eguneratu da',
+        ], Response::HTTP_OK);
     }
 
-    // DELETE /api/schedule/{id}
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         $schedule = Schedules::find($id);
 
         if (!$schedule) {
             return response()->json([
-                'message' => 'Ordutegia ez da existitzen'
-            ], 404);
+                'success' => false,
+                'data' => 'Ordutegiaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $schedule->delete();
 
         return response()->json([
-            'message' => 'Ordutegia ezabatuta.'
-        ], 202);
+            'success' => true,
+            'data' => 'Ordutegia ezabatuta'
+        ], Response::HTTP_OK);
     }
 }

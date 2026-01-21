@@ -87,7 +87,6 @@ class EquipmentController extends Controller
             return response()->json([
                     'success' => true,
                     'message' => 'Ekipamendua eguneratu da',
-                    'data' => $equipment
                 ], Response::HTTP_OK); 
         }
     }
