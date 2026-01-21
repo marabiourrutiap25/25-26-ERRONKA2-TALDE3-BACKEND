@@ -4,19 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\ConsumablesCategorie;
 
 class ConsumableCategoriController extends Controller
 {
-    // GET /api/consumable-categori
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $categories = ConsumablesCategorie::all();
-
-        return response()->json($categories, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $categories
+        ], Response::HTTP_OK);
     }
 
-    // POST /api/consumable-categori
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -25,58 +32,77 @@ class ConsumableCategoriController extends Controller
 
         $category = ConsumablesCategorie::create($validated);
 
-        return response()->json($category, 201);
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategoria sortu egin da'
+        ], Response::HTTP_CREATED);
     }
 
-    // GET /api/consumable-categori/{id}
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $category = ConsumablesCategorie::find($id);
 
         if (!$category) {
             return response()->json([
-                'message' => 'Kategoria ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Kategoriaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($category, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $category
+        ], Response::HTTP_OK);
     }
 
-    // PUT /api/consumable-categori/{id}
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         $category = ConsumablesCategorie::find($id);
 
         if (!$category) {
             return response()->json([
-                'message' => 'Kategoria ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Kategoriaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        $category->update($validated);
+        $category->update(attributes: $validated);
 
-        return response()->json($category, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategoria eguneratu da',
+        ], Response::HTTP_OK);
     }
 
-    // DELETE /api/consumable-categori/{id}
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         $category = ConsumablesCategorie::find($id);
 
         if (!$category) {
             return response()->json([
-                'message' => 'Kategoria ez da existitzen'
-            ], 404);
+                'success' => false,
+                'data' => 'Kategoriaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $category->delete();
 
         return response()->json([
-            'message' => 'Kategoria ezabatuta.'
-        ], 202);
+            'success' => true,
+            'data' => 'Kategoria ezabatuta'
+        ], Response::HTTP_OK);
     }
 }

@@ -4,19 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Consumable;
 
 class ConsumableController extends Controller
 {
-    // GET /api/consumable
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $consumables = Consumable::all();
-
-        return response()->json($consumables, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $consumables
+        ], Response::HTTP_OK);
     }
 
-    // POST /api/consumable
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,32 +39,44 @@ class ConsumableController extends Controller
 
         $consumable = Consumable::create($validated);
 
-        return response()->json($consumable, 201);
+        return response()->json([
+            'success' => true,
+            'message' => 'Konsumiblea sortu egin da'
+        ], Response::HTTP_CREATED);
     }
 
-    // GET /api/consumable/{id}
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $consumable = Consumable::find($id);
 
         if (!$consumable) {
             return response()->json([
-                'message' => 'Konsumiblea ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Konsumiblearen id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($consumable, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $consumable
+        ], Response::HTTP_OK);
     }
 
-    // PUT /api/consumable/{id}
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         $consumable = Consumable::find($id);
 
         if (!$consumable) {
             return response()->json([
-                'message' => 'Konsumiblea ez da existitzen'
-            ], 404);
+                'success' => false,
+                'message' => 'Konsumiblearen id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $validated = $request->validate([
@@ -73,24 +92,31 @@ class ConsumableController extends Controller
 
         $consumable->update($validated);
 
-        return response()->json($consumable, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Konsumiblea eguneratu da',
+        ], Response::HTTP_OK);
     }
 
-    // DELETE /api/consumable/{id}
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         $consumable = Consumable::find($id);
 
         if (!$consumable) {
             return response()->json([
-                'message' => 'Konsumiblea ez da existitzen'
-            ], 404);
+                'success' => false,
+                'data' => 'Konsumiblearen id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $consumable->delete();
 
         return response()->json([
-            'message' => 'Konsumiblea ezabatuta.'
-        ], 202);
+            'success' => true,
+            'data' => 'Konsumiblea ezabatuta'
+        ], Response::HTTP_OK);
     }
 }
