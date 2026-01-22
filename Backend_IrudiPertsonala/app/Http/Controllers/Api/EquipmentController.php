@@ -6,9 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class EquipmentController extends Controller
 {
+    /**
+     * Reglas de validación reutilizables
+     */
+    private function validationRules(): array
+    {
+        return [
+            'label' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'brand' => 'nullable|string|max:255',
+            'equipment_categories_id' => 'required|integer|exists:equipment_categories,id',
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -16,9 +31,9 @@ class EquipmentController extends Controller
     {
         $equipments = Equipment::all();
         return response()->json([
-                'success' => true,
-                'data' => $equipments
-            ], Response::HTTP_OK);
+            'success' => true,
+            'data' => $equipments
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -26,20 +41,21 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'label' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'equipment_categories_id' => 'required|integer|exists:equipment_categories,id',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors'  => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $equipment = Equipment::create($validated);
+        Equipment::create($validated);
 
         return response()->json([
-                'success' => true,
-                'message' => 'Ekipamendua sortu egin da',
-            ], Response::HTTP_CREATED);
+            'success' => true,
+            'message' => 'Ekipamendua sortu egin da',
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -49,16 +65,16 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::find($id);
 
-        if (!$equipment){
+        if (!$equipment) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ekipamenduen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
-                    'success' => true,
-                    'data' => $equipment
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => $equipment
+            ], Response::HTTP_OK);
         }
     }
 
@@ -67,28 +83,29 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipment= Equipment::find($id);
+        $equipment = Equipment::find($id);
 
-        if (!$equipment){
+        if (!$equipment) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ekipamenduen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
-            $validated = $request->validate([
-                'label' => 'required|string|max:255',
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string|max:255',
-                'brand' => 'nullable|string|max:255',
-                'equipment_categories_id' => 'required|integer',
-            ]);
+            try {
+                $validated = $request->validate($this->validationRules());
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'success' => false,
+                    'errors'  => 'Datuak faltatzen dira.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
 
             $equipment->update($validated);
 
             return response()->json([
-                    'success' => true,
-                    'message' => 'Ekipamendua eguneratu da',
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'message' => 'Ekipamendua eguneratu da',
+            ], Response::HTTP_OK);
         }
     }
 
@@ -98,17 +115,17 @@ class EquipmentController extends Controller
     public function destroy(string $id)
     {
         $equipment = Equipment::find($id);
-        if (!$equipment){
+        if (!$equipment) {
             return response()->json([
                 'success' => false,
                 'data' => 'Ekipamenduen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             $equipment->delete();
             return response()->json([
-                    'success' => true,
-                    'data' => 'Ekipamendua ezabatuta'
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => 'Ekipamendua ezabatuta'
+            ], Response::HTTP_OK);
         }
     }
 }

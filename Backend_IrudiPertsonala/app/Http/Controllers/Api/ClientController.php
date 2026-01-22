@@ -6,9 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class ClientController extends Controller
 {
+    /**
+     * Reglas de validación reutilizables
+     */
+    private function validationRules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'surnames' => 'required|string|max:255',
+            'telephone' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'home_client' => 'required|boolean',
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -16,9 +31,9 @@ class ClientController extends Controller
     {
         $clients = Client::all();
         return response()->json([
-                'success' => true,
-                'data' => $clients
-            ], Response::HTTP_OK);
+            'success' => true,
+            'data' => $clients
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -26,20 +41,21 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'surnames' => 'required|string|max:255',
-            'telephone' => 'nullable|string|max:255',
-            'email' => 'nullable|string|max:255',
-            'home_client' => 'required|boolean',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors'  => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $client = Client::create($validated);
+        Client::create($validated);
 
         return response()->json([
-                'success' => true,
-                'message' => 'Bezeroa sortu egin da',
-            ], Response::HTTP_CREATED);
+            'success' => true,
+            'message' => 'Bezeroa sortu egin da',
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -49,16 +65,16 @@ class ClientController extends Controller
     {
         $client = Client::find($id);
 
-        if (!$client){
+        if (!$client) {
             return response()->json([
                 'success' => false,
                 'message' => 'Bezero id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
-                    'success' => true,
-                    'data' => $client
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => $client
+            ], Response::HTTP_OK);
         }
     }
 
@@ -67,28 +83,29 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $client= Client::find($id);
+        $client = Client::find($id);
 
-        if (!$client){
+        if (!$client) {
             return response()->json([
                 'success' => false,
                 'message' => 'Bezeroen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'surnames' => 'required|string|max:255',
-                'telephone' => 'nullable|string|max:255',
-                'email' => 'nullable|string|max:255',
-                'home_client' => 'required|boolean',
-            ]);
+            try {
+                $validated = $request->validate($this->validationRules());
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'success' => false,
+                    'errors'  => 'Datuak faltatzen dira.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
 
             $client->update($validated);
 
             return response()->json([
-                    'success' => true,
-                    'message' => 'Bezeroa eguneratu da',
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'message' => 'Bezeroa eguneratu da',
+            ], Response::HTTP_OK);
         }
     }
 
@@ -98,17 +115,17 @@ class ClientController extends Controller
     public function destroy(string $id)
     {
         $client = Client::find($id);
-        if (!$client){
+        if (!$client) {
             return response()->json([
                 'success' => false,
                 'data' => 'Bezeroen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             $client->delete();
             return response()->json([
-                    'success' => true,
-                    'data' => 'Bezeroa ezabatuta'
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => 'Bezeroa ezabatuta'
+            ], Response::HTTP_OK);
         }
     }
 }
