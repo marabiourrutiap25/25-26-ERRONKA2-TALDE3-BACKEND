@@ -17,10 +17,10 @@ class AppointmentController extends Controller
     {
         return [
             'seat' => 'required|integer',
-            'date' => 'required|date_format:H:i:s',
+            'date' => 'required|date_format:Y-m-d',
             'start_time' => 'required|date_format:H:i:s',
             'end_time' => 'required|date_format:H:i:s|after:start_time',
-            'comments' => 'required|string',
+            'comments' => 'nullable|string',
             'student_id' => 'required|exists:students,id',
             'client_id' => 'required|exists:clients,id',
         ];
@@ -48,7 +48,7 @@ class AppointmentController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -98,7 +98,7 @@ class AppointmentController extends Controller
             } catch (ValidationException $e) {
                 return response()->json([
                     'success' => false,
-                    'errors'  => 'Datuak faltatzen dira.',
+                    'errors' => 'Datuak faltatzen dira.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             $appointment->update($validated);
