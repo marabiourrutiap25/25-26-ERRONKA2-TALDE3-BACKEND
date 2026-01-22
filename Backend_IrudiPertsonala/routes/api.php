@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AppointmentServiceController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ConsumableCategoryController;
 use App\Http\Controllers\Api\ConsumableController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Api\StudentConsumableController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\EquipmentCategoryController;
+use App\Http\Controllers\Api\StudentEquipmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +35,5 @@ Route::apiResource('client', ClientController::class);
 Route::apiResource('service', ServiceController::class);
 Route::apiResource('service-category', ServiceCategoryController::class);
 Route::apiResource('student-consumable', StudentConsumableController::class);
+Route::apiResource('appointment-service', AppointmentServiceController::class);
+Route::apiResource('student-aquipment', StudentEquipmentController::class);
