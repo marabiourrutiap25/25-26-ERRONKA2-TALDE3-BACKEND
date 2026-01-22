@@ -27,7 +27,7 @@ class ConsumablesSeeder extends Seeder
                 'stock' => $faker->numberBetween(5, 100),
                 'min_stock' => $faker->optional()->numberBetween(1, 10) ?: null,
                 'expiration_date' => $expiration ? $expiration->format('Y-m-d') : null,
-                'consumables_categories_id' => $categories->random()->id,
+                'consumable_category_id' => $categories->random()->id,
             ]);
         }
     }

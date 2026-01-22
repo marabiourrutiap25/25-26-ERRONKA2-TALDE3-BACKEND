@@ -23,7 +23,7 @@ class EquipmentSeeder extends Seeder
                 'name' => $faker->word(),
                 'description' => $faker->optional()->sentence() ?: null,
                 'brand' => $faker->optional()->company() ?: null,
-                'equipment_categories_id' => $categories->random()->id,
+                'equipment_category_id' => $categories->random()->id,
             ]);
         }
     }

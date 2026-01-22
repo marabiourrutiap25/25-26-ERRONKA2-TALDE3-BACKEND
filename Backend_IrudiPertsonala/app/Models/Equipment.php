@@ -13,7 +13,7 @@ class Equipment extends Model
         'name',
         'description',
         'brand',
-        'equipment_categories_id',
+        'equipment_category_id',
     ];
     public function equipmentCategories(): BelongsTo
     {

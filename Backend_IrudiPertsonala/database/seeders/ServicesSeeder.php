@@ -23,7 +23,7 @@ class ServicesSeeder extends Seeder
                 'price' => $faker->randomFloat(2, 50, 500),
                 'home_price' => $faker->randomFloat(2, 50, 500),
                 'duration' => $faker->optional()->numberBetween(30, 180) ?: null,
-                'service_categories_id' => $categories->random()->id,
+                'service_category_id' => $categories->random()->id,
             ]);
         }
     }

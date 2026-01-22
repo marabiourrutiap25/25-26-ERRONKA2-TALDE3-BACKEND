@@ -23,7 +23,7 @@ class ConsumableController extends Controller
             'stock' => 'required|integer|min:0',
             'min_stock' => 'nullable|integer|min:0',
             'expiration_date' => 'nullable|date',
-            'consumables_category_id' => 'required|exists:consumables_categories,id',
+            'consumable_category_id' => 'required|exists:consumable_categories,id',
         ];
     }
 

@@ -15,7 +15,7 @@ class Consumable extends Model
         'stock',
         'min_stock',
         'expiration_date',
-        'consumables_category_id',
+        'consumable_category_id',
     ];
     public function consumablescategorie(): BelongsTo
     {

@@ -14,7 +14,7 @@ class Service extends Model
         'price',
         'home_price',
         'duration',
-        'service_categories_id',
+        'service_category_id',
     ];
     public function serviceCategories(): BelongsTo
     {
