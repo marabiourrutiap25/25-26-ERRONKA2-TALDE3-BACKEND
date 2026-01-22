@@ -36,4 +36,4 @@ Route::apiResource('service', ServiceController::class);
 Route::apiResource('service-category', ServiceCategoryController::class);
 Route::apiResource('student-consumable', StudentConsumableController::class);
 Route::apiResource('appointment-service', AppointmentServiceController::class);
-Route::apiResource('student-aquipment', StudentEquipmentController::class);
+Route::apiResource('student-equipment', StudentEquipmentController::class);
