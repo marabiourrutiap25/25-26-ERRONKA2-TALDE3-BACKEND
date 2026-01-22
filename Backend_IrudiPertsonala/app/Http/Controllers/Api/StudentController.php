@@ -6,33 +6,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Student;
+use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Reglas de validación reutilizables
      */
-    public function index()
+    private function validationRules(): array
     {
-        $students = Student::all();
-        return response()->json([
-            'success' => true,
-            'data' => $students
-        ], Response::HTTP_OK);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+        return [
             'name' => 'required|string|max:255',
             'surnames' => 'required|string|max:255',
             'group_id' => 'required|exists:groups,id',
-        ]);
+        ];
+    }
 
-        $student = Student::create($validated);
+    public function index()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Student::all()
+        ], Response::HTTP_OK);
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        Student::create($validated);
 
         return response()->json([
             'success' => true,
@@ -40,9 +49,6 @@ class StudentController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $student = Student::find($id);
@@ -60,9 +66,6 @@ class StudentController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $student = Student::find($id);
@@ -74,11 +77,14 @@ class StudentController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'surnames' => 'required|string|max:255',
-            'group_id' => 'required|exists:groups,id',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $student->update($validated);
 
@@ -88,9 +94,6 @@ class StudentController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $student = Student::find($id);

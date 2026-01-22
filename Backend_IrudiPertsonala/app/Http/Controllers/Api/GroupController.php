@@ -6,26 +6,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Group;
+use Illuminate\Validation\ValidationException;
 
 class GroupController extends Controller
 {
+    /**
+     * Reglas de validación reutilizables
+     */
+    private function validationRules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+        ];
+    }
 
     public function index()
     {
-        $groups = Group::all();
         return response()->json([
             'success' => true,
-            'data' => $groups
+            'data' => Group::all()
         ], Response::HTTP_OK);
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $group = Group::create($validated);
+        Group::create($validated);
 
         return response()->json([
             'success' => true,
@@ -37,56 +51,63 @@ class GroupController extends Controller
     {
         $group = Group::find($id);
 
-        if (!$group){
+        if (!$group) {
             return response()->json([
                 'success' => false,
                 'message' => 'Taldearen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
-        } else {
-            return response()->json([
-                'success' => true,
-                'data' => $group
-            ], Response::HTTP_OK); 
+            ], Response::HTTP_NOT_FOUND);
         }
+
+        return response()->json([
+            'success' => true,
+            'data' => $group
+        ], Response::HTTP_OK);
     }
 
     public function update(Request $request, string $id)
     {
         $group = Group::find($id);
 
-        if (!$group){
+        if (!$group) {
             return response()->json([
                 'success' => false,
                 'message' => 'Taldearen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
-        } else {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-            ]);
-
-            $group->update($validated);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Taldea eguneratu da',
-            ], Response::HTTP_OK); 
+            ], Response::HTTP_NOT_FOUND);
         }
+
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $group->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Taldea eguneratu da',
+        ], Response::HTTP_OK);
     }
 
     public function destroy(string $id)
     {
         $group = Group::find($id);
-        if (!$group){
+
+        if (!$group) {
             return response()->json([
                 'success' => false,
                 'data' => 'Taldearen id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
-        } else {
-            $group->delete();
-            return response()->json([
-                'success' => true,
-                'data' => 'Taldea ezabatuta'
-            ], Response::HTTP_OK); 
+            ], Response::HTTP_NOT_FOUND);
         }
+
+        $group->delete();
+
+        return response()->json([
+            'success' => true,
+            'data' => 'Taldea ezabatuta'
+        ], Response::HTTP_OK);
     }
 }

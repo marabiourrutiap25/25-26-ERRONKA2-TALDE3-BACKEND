@@ -5,20 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Shift;
+use App\Models\StudentEquipment;
 use Illuminate\Validation\ValidationException;
 
-class ShiftController extends Controller
+class StudentEquipmentController extends Controller
 {
-    /**
-     * Reglas de validación reutilizables
-     */
     private function validationRules(): array
     {
         return [
-            'type' => 'required|string|in:A,B,C',
-            'data' => 'required|date',
             'student_id' => 'required|exists:students,id',
+            'equipment_id' => 'required|exists:equipments,id',
+            'start_datetime' => 'required|date',
+            'end_datetime' => 'required|date|after:start_datetime',
         ];
     }
 
@@ -26,7 +24,7 @@ class ShiftController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => Shift::all()
+            'data' => StudentEquipment::all()
         ], Response::HTTP_OK);
     }
 
@@ -37,43 +35,43 @@ class ShiftController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        Shift::create($validated);
+        StudentEquipment::create($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Txanda sortu egin da'
+            'message' => 'StudentEquipment sortu egin da'
         ], Response::HTTP_CREATED);
     }
 
     public function show(string $id)
     {
-        $shift = Shift::find($id);
+        $studentEquipment = StudentEquipment::find($id);
 
-        if (!$shift) {
+        if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'message' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([
             'success' => true,
-            'data' => $shift
+            'data' => $studentEquipment
         ], Response::HTTP_OK);
     }
 
     public function update(Request $request, string $id)
     {
-        $shift = Shift::find($id);
+        $studentEquipment = StudentEquipment::find($id);
 
-        if (!$shift) {
+        if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'message' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -82,34 +80,34 @@ class ShiftController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $shift->update($validated);
+        $studentEquipment->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Txanda eguneratu da',
+            'message' => 'StudentEquipment eguneratu da'
         ], Response::HTTP_OK);
     }
 
     public function destroy(string $id)
     {
-        $shift = Shift::find($id);
+        $studentEquipment = StudentEquipment::find($id);
 
-        if (!$shift) {
+        if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'data' => 'Txandaren id-a ez da aurkitu'
+                'data' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $shift->delete();
+        $studentEquipment->delete();
 
         return response()->json([
             'success' => true,
-            'data' => 'Txanda ezabatuta'
+            'data' => 'StudentEquipment ezabatuta'
         ], Response::HTTP_OK);
     }
 }

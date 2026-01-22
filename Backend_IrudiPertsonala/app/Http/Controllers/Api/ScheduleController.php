@@ -6,36 +6,45 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Schedules;
+use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Reglas de validación reutilizables
      */
-    public function index()
+    private function validationRules(): array
     {
-        $schedules = Schedules::all();
-        return response()->json([
-            'success' => true,
-            'data' => $schedules
-        ], Response::HTTP_OK);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+        return [
             'day' => 'required|integer|between:1,7',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required|date_format:H:i:s',
             'end_time' => 'required|date_format:H:i:s|after:start_time',
             'group_id' => 'required|exists:groups,id',
-        ]);
+        ];
+    }
 
-        $schedule = Schedules::create($validated);
+    public function index()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Schedules::all()
+        ], Response::HTTP_OK);
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        Schedules::create($validated);
 
         return response()->json([
             'success' => true,
@@ -43,9 +52,6 @@ class ScheduleController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $schedule = Schedules::find($id);
@@ -63,9 +69,6 @@ class ScheduleController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $schedule = Schedules::find($id);
@@ -77,14 +80,14 @@ class ScheduleController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $validated = $request->validate([
-            'day' => 'required|integer|between:1,7',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'required|date_format:H:i:s|after:start_time',
-            'group_id' => 'required|exists:groups,id',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $schedule->update($validated);
 
@@ -94,9 +97,6 @@ class ScheduleController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $schedule = Schedules::find($id);

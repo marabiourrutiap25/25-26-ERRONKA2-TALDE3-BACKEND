@@ -6,31 +6,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\ConsumablesCategorie;
+use Illuminate\Validation\ValidationException;
 
 class ConsumableCategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Reglas de validación reutilizables
      */
+    private function validationRules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+        ];
+    }
+
     public function index()
     {
-        $categories = ConsumablesCategorie::all();
         return response()->json([
             'success' => true,
-            'data' => $categories
+            'data' => ConsumablesCategorie::all()
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $category = ConsumablesCategorie::create($validated);
+        ConsumablesCategorie::create($validated);
 
         return response()->json([
             'success' => true,
@@ -38,9 +47,6 @@ class ConsumableCategoryController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $category = ConsumablesCategorie::find($id);
@@ -58,9 +64,6 @@ class ConsumableCategoryController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $category = ConsumablesCategorie::find($id);
@@ -72,21 +75,23 @@ class ConsumableCategoryController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $category->update(attributes: $validated);
+        $category->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategoria eguneratu da',
+            'message' => 'Kategoria eguneratu da'
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $category = ConsumablesCategorie::find($id);

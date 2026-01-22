@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Shift;
+use App\Models\AppointmentService;
 use Illuminate\Validation\ValidationException;
 
-class ShiftController extends Controller
+class AppointmentServiceController extends Controller
 {
-    /**
-     * Reglas de validación reutilizables
-     */
     private function validationRules(): array
     {
         return [
-            'type' => 'required|string|in:A,B,C',
-            'data' => 'required|date',
-            'student_id' => 'required|exists:students,id',
+            'appointment_id' => 'required|exists:appointments,id',
+            'service_id' => 'required|exists:services,id',
+            'comments' => 'nullable|string',
         ];
     }
 
@@ -26,7 +23,7 @@ class ShiftController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => Shift::all()
+            'data' => AppointmentService::all()
         ], Response::HTTP_OK);
     }
 
@@ -37,43 +34,43 @@ class ShiftController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        Shift::create($validated);
+        AppointmentService::create($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Txanda sortu egin da'
+            'message' => 'AppointmentService sortu egin da'
         ], Response::HTTP_CREATED);
     }
 
     public function show(string $id)
     {
-        $shift = Shift::find($id);
+        $appointmentService = AppointmentService::find($id);
 
-        if (!$shift) {
+        if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'message' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([
             'success' => true,
-            'data' => $shift
+            'data' => $appointmentService
         ], Response::HTTP_OK);
     }
 
     public function update(Request $request, string $id)
     {
-        $shift = Shift::find($id);
+        $appointmentService = AppointmentService::find($id);
 
-        if (!$shift) {
+        if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'message' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -82,34 +79,34 @@ class ShiftController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $shift->update($validated);
+        $appointmentService->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Txanda eguneratu da',
+            'message' => 'AppointmentService eguneratu da'
         ], Response::HTTP_OK);
     }
 
     public function destroy(string $id)
     {
-        $shift = Shift::find($id);
+        $appointmentService = AppointmentService::find($id);
 
-        if (!$shift) {
+        if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'data' => 'Txandaren id-a ez da aurkitu'
+                'data' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $shift->delete();
+        $appointmentService->delete();
 
         return response()->json([
             'success' => true,
-            'data' => 'Txanda ezabatuta'
+            'data' => 'AppointmentService ezabatuta'
         ], Response::HTTP_OK);
     }
 }

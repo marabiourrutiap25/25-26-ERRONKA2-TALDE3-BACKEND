@@ -6,27 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Consumable;
+use Illuminate\Validation\ValidationException;
 
 class ConsumableController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Reglas de validación reutilizables
      */
-    public function index()
+    private function validationRules(): array
     {
-        $consumables = Consumable::all();
-        return response()->json([
-            'success' => true,
-            'data' => $consumables
-        ], Response::HTTP_OK);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+        return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'batch' => 'nullable|string|max:255',
@@ -35,9 +24,29 @@ class ConsumableController extends Controller
             'min_stock' => 'nullable|integer|min:0',
             'expiration_date' => 'nullable|date',
             'consumables_categorie_id' => 'required|exists:consumables_categories,id',
-        ]);
+        ];
+    }
 
-        $consumable = Consumable::create($validated);
+    public function index()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Consumable::all()
+        ], Response::HTTP_OK);
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        Consumable::create($validated);
 
         return response()->json([
             'success' => true,
@@ -45,9 +54,6 @@ class ConsumableController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $consumable = Consumable::find($id);
@@ -65,9 +71,6 @@ class ConsumableController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $consumable = Consumable::find($id);
@@ -79,28 +82,23 @@ class ConsumableController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'batch' => 'nullable|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'stock' => 'required|integer|min:0',
-            'min_stock' => 'nullable|integer|min:0',
-            'expiration_date' => 'nullable|date',
-            'consumables_categorie_id' => 'required|exists:consumables_categories,id',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $consumable->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Konsumiblea eguneratu da',
+            'message' => 'Konsumiblea eguneratu da'
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $consumable = Consumable::find($id);
