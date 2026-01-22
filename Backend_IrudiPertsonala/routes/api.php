@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\ServiceCategoryController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\StudentController;
-use App\Http\Controllers\EquipmentCategoryController;
-use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\Api\EquipmentController;
+use App\Http\Controllers\Api\EquipmentCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
