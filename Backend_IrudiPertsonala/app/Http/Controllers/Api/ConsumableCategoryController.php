@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\ConsumablesCategorie;
+use App\Models\ConsumableCategorie;
 use Illuminate\Validation\ValidationException;
 
 class ConsumableCategoryController extends Controller
@@ -24,7 +24,7 @@ class ConsumableCategoryController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => ConsumablesCategorie::all()
+            'data' => ConsumableCategorie::all()
         ], Response::HTTP_OK);
     }
 
@@ -39,7 +39,7 @@ class ConsumableCategoryController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        ConsumablesCategorie::create($validated);
+        ConsumableCategorie::create($validated);
 
         return response()->json([
             'success' => true,
@@ -49,7 +49,7 @@ class ConsumableCategoryController extends Controller
 
     public function show(string $id)
     {
-        $category = ConsumablesCategorie::find($id);
+        $category = ConsumableCategorie::find($id);
 
         if (!$category) {
             return response()->json([
@@ -66,7 +66,7 @@ class ConsumableCategoryController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $category = ConsumablesCategorie::find($id);
+        $category = ConsumableCategorie::find($id);
 
         if (!$category) {
             return response()->json([
@@ -94,7 +94,7 @@ class ConsumableCategoryController extends Controller
 
     public function destroy(string $id)
     {
-        $category = ConsumablesCategorie::find($id);
+        $category = ConsumableCategorie::find($id);
 
         if (!$category) {
             return response()->json([

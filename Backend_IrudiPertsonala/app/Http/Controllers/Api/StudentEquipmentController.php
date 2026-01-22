@@ -14,7 +14,7 @@ class StudentEquipmentController extends Controller
     {
         return [
             'student_id' => 'required|exists:students,id',
-            'equipment_id' => 'required|exists:equipments,id',
+            'equipment_id' => 'required|exists:equipment,id',
             'start_datetime' => 'required|date',
             'end_datetime' => 'required|date|after:start_datetime',
         ];

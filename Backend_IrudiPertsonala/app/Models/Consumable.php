@@ -19,7 +19,7 @@ class Consumable extends Model
     ];
     public function consumablescategorie(): BelongsTo
     {
-        return $this->BelongsTo(ConsumablesCategorie::class);
+        return $this->BelongsTo(ConsumableCategorie::class);
     }
 
     public function studentconsumable(): HasMany

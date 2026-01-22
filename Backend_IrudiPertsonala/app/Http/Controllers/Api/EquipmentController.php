@@ -29,10 +29,10 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::all();
+        $equipment = Equipment::all();
         return response()->json([
             'success' => true,
-            'data' => $equipments
+            'data' => $equipment
         ], Response::HTTP_OK);
     }
 

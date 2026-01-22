@@ -7,7 +7,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentCategorie;
 use Faker\Factory as Faker;
 
-class EquipmentSeeder extends Seeder
+class EquipmentsSeeder extends Seeder
 {
     public function run(): void
     {

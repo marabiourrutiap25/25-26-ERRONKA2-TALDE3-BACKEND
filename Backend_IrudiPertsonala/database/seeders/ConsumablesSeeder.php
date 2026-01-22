@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Consumable;
-use App\Models\ConsumablesCategorie;
+use App\Models\ConsumableCategorie;
 use Faker\Factory as Faker;
 
 class ConsumablesSeeder extends Seeder
@@ -12,7 +12,7 @@ class ConsumablesSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        $categories = ConsumablesCategorie::all();
+        $categories = ConsumableCategorie::all();
         if ($categories->isEmpty())
             return;
 
