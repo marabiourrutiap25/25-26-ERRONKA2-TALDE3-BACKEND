@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\ConsumablesCategorie;
 
-class ConsumableCategoriController extends Controller
+class ConsumableCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
