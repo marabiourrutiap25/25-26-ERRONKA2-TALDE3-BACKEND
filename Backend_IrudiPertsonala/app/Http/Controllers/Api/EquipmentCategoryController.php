@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\EquipmentCategorie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class EquipmentCategoryController extends Controller
 {
+    /**
+     * Reglas de validación reutilizables
+     */
+    private function validationRules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -16,9 +27,9 @@ class EquipmentCategoryController extends Controller
     {
         $equipmentCategories = EquipmentCategorie::all();
         return response()->json([
-                'success' => true,
-                'data' => $equipmentCategories
-            ], Response::HTTP_OK);
+            'success' => true,
+            'data' => $equipmentCategories
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -26,16 +37,21 @@ class EquipmentCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors'  => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $equipmentCategory = EquipmentCategorie::create($validated);
 
         return response()->json([
-                'success' => true,
-                'message' => 'Ekipamendu Kategoria sortu egin da'
-            ], Response::HTTP_CREATED);
+            'success' => true,
+            'message' => 'Ekipamendu Kategoria sortu egin da'
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -45,16 +61,16 @@ class EquipmentCategoryController extends Controller
     {
         $equipmentCategory = EquipmentCategorie::find($id);
 
-        if (!$equipmentCategory){
+        if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
-                    'success' => true,
-                    'data' => $equipmentCategory
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => $equipmentCategory
+            ], Response::HTTP_OK);
         }
     }
 
@@ -63,24 +79,29 @@ class EquipmentCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipmentCategory= EquipmentCategorie::find($id);
+        $equipmentCategory = EquipmentCategorie::find($id);
 
-        if (!$equipmentCategory){
+        if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-            ]);
+            try {
+                $validated = $request->validate($this->validationRules());
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'success' => false,
+                    'errors'  => 'Datuak faltatzen dira.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
 
             $equipmentCategory->update($validated);
 
             return response()->json([
-                    'success' => true,
-                    'message' => 'Ekipamendu Kategoria eguneratu da',
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'message' => 'Ekipamendu Kategoria eguneratu da',
+            ], Response::HTTP_OK);
         }
     }
 
@@ -90,17 +111,17 @@ class EquipmentCategoryController extends Controller
     public function destroy(string $id)
     {
         $equipmentCategory = EquipmentCategorie::find($id);
-        if (!$equipmentCategory){
+        if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
                 'data' => 'Ekipamendu Kategorien id-a ez da aurkitu'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_NOT_FOUND);
         } else {
             $equipmentCategory->delete();
             return response()->json([
-                    'success' => true,
-                    'data' => 'Ekipamendu Kategoria ezabatuta'
-                ], Response::HTTP_OK); 
+                'success' => true,
+                'data' => 'Ekipamendu Kategoria ezabatuta'
+            ], Response::HTTP_OK);
         }
     }
 }
