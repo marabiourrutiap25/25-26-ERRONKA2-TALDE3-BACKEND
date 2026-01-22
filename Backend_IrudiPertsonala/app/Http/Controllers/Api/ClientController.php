@@ -50,7 +50,7 @@ class ClientController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $client = Client::create($validated);
+        Client::create($validated);
 
         return response()->json([
             'success' => true,

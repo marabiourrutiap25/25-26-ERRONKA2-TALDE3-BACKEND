@@ -50,7 +50,7 @@ class EquipmentController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $equipment = Equipment::create($validated);
+        Equipment::create($validated);
 
         return response()->json([
             'success' => true,

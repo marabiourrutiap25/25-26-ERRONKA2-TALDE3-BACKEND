@@ -52,7 +52,7 @@ class AppointmentController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $appointment = Appointment::create($validated);
+        Appointment::create($validated);
 
         return response()->json([
             'success' => true,

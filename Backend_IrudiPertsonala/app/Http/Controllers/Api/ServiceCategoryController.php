@@ -47,7 +47,7 @@ class ServiceCategoryController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $serviceCategory = ServiceCategorie::create($validated);
+        ServiceCategorie::create($validated);
 
         return response()->json([
             'success' => true,

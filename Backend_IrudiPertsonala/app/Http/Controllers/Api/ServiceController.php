@@ -50,7 +50,7 @@ class ServiceController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $equipment = Service::create($validated);
+        Service::create($validated);
 
         return response()->json([
             'success' => true,
