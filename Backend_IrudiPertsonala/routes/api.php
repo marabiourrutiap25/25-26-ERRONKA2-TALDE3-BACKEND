@@ -24,7 +24,7 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('groups', GroupController::class);
 Route::apiResource('consumables', ConsumableController::class);
-Route::apiResource('consumable-categorys', ConsumableCategoryController::class);
+Route::apiResource('consumable-categories', ConsumableCategoryController::class);
 Route::apiResource('schedules', ScheduleController::class);
 Route::apiResource('students', StudentController::class);
 Route::apiResource('shifts', ShiftController::class);

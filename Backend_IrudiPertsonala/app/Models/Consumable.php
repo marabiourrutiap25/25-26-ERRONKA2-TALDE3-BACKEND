@@ -15,11 +15,11 @@ class Consumable extends Model
         'stock',
         'min_stock',
         'expiration_date',
-        'consumables_categorie_id',
+        'consumables_category_id',
     ];
     public function consumablescategorie(): BelongsTo
     {
-        return $this->BelongsTo(ConsumableCategorie::class);
+        return $this->BelongsTo(ConsumableCategory::class);
     }
 
     public function studentconsumable(): HasMany

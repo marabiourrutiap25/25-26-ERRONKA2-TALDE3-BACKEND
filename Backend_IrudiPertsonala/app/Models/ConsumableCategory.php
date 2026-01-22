@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ServiceCategorie extends Model
+class ConsumableCategory extends Model
 {
     protected $fillable = ['name'];
-    public function service(): HasMany
+    public function consumable(): HasMany
     {
-        return $this->hasMany(Service::class);
+        return $this->HasMany(Consumable::class);
     }
 }

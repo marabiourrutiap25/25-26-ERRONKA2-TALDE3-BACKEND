@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\EquipmentCategorie;
+use App\Models\EquipmentCategory;
 use Faker\Factory as Faker;
 
 class EquipmentCategoriesSeeder extends Seeder
@@ -13,7 +13,7 @@ class EquipmentCategoriesSeeder extends Seeder
         $faker = Faker::create();
 
         foreach (range(1, 7) as $index) {
-            EquipmentCategorie::create([
+            EquipmentCategory::create([
                 'name' => $faker->word(),
             ]);
         }

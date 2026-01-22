@@ -20,7 +20,7 @@ class ServiceController extends Controller
             'price' => 'required|numeric|min:0',
             'home_price' => 'required|numeric|min:0',
             'duration' => 'nullable|integer|min:0',
-            'service_categories_id' => 'required|integer|exists:service_categories,id',
+            'service_category_id' => 'required|integer|exists:service_categories,id',
         ];
     }
 

@@ -17,7 +17,7 @@ class Equipment extends Model
     ];
     public function equipmentCategories(): BelongsTo
     {
-        return $this->belongsTo(EquipmentCategorie::class);
+        return $this->belongsTo(EquipmentCategory::class);
     }
 
     public function student(): BelongsToMany

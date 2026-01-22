@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ServiceCategorie;
+use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +26,7 @@ class ServiceCategoryController extends Controller
      */
     public function index()
     {
-        $serviceCategories = ServiceCategorie::all();
+        $serviceCategories = ServiceCategory::all();
         return response()->json([
             'success' => true,
             'data' => $serviceCategories
@@ -47,7 +47,7 @@ class ServiceCategoryController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        ServiceCategorie::create($validated);
+        ServiceCategory::create($validated);
 
         return response()->json([
             'success' => true,
@@ -60,7 +60,7 @@ class ServiceCategoryController extends Controller
      */
     public function show(string $id)
     {
-        $serviceCategory = ServiceCategorie::find($id);
+        $serviceCategory = ServiceCategory::find($id);
 
         if (!$serviceCategory) {
             return response()->json([
@@ -80,7 +80,7 @@ class ServiceCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $serviceCategory = ServiceCategorie::find($id);
+        $serviceCategory = ServiceCategory::find($id);
 
         if (!$serviceCategory) {
             return response()->json([
@@ -111,7 +111,7 @@ class ServiceCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $serviceCategory = ServiceCategorie::find($id);
+        $serviceCategory = ServiceCategory::find($id);
         if (!$serviceCategory) {
             return response()->json([
                 'success' => false,

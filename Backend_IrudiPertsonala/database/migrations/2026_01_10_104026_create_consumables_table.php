@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('min_stock')->nullable();
             $table->date('expiration_date')->nullable();
-            $table->foreignId('consumable_categorie_id')->constrained()->onDelete('cascade');
+            $table->foreignId('consumable_category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

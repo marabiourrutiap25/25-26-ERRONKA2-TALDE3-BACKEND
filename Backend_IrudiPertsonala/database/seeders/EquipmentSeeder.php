@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Equipment;
-use App\Models\EquipmentCategorie;
+use App\Models\EquipmentCategory;
 use Faker\Factory as Faker;
 
 class EquipmentSeeder extends Seeder
@@ -13,7 +13,7 @@ class EquipmentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categories = EquipmentCategorie::all();
+        $categories = EquipmentCategory::all();
         if ($categories->isEmpty())
             return;
 

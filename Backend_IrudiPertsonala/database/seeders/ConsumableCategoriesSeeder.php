@@ -3,17 +3,17 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\ConsumableCategorie;
+use App\Models\ConsumableCategory;
 use Faker\Factory as Faker;
 
-class ConsumablesCategoriesSeeder extends Seeder
+class ConsumableCategoriesSeeder extends Seeder
 {
     public function run(): void
     {
         $faker = Faker::create();
 
         foreach (range(1, 7) as $index) {
-            ConsumableCategorie::create([
+            ConsumableCategory::create([
                 'name' => $faker->word(),
             ]);
         }

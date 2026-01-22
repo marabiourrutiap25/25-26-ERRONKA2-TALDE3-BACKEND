@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\EquipmentCategorie;
+use App\Models\EquipmentCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -25,7 +25,7 @@ class EquipmentCategoryController extends Controller
      */
     public function index()
     {
-        $equipmentCategories = EquipmentCategorie::all();
+        $equipmentCategories = EquipmentCategory::all();
         return response()->json([
             'success' => true,
             'data' => $equipmentCategories
@@ -46,7 +46,7 @@ class EquipmentCategoryController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        EquipmentCategorie::create($validated);
+        EquipmentCategory::create($validated);
 
         return response()->json([
             'success' => true,
@@ -59,7 +59,7 @@ class EquipmentCategoryController extends Controller
      */
     public function show(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $equipmentCategory = EquipmentCategory::find($id);
 
         if (!$equipmentCategory) {
             return response()->json([
@@ -79,7 +79,7 @@ class EquipmentCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $equipmentCategory = EquipmentCategory::find($id);
 
         if (!$equipmentCategory) {
             return response()->json([
@@ -110,7 +110,7 @@ class EquipmentCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $equipmentCategory = EquipmentCategorie::find($id);
+        $equipmentCategory = EquipmentCategory::find($id);
         if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,

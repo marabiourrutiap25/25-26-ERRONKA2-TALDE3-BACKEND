@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class EquipmentCategorie extends Model
+class ServiceCategory extends Model
 {
     protected $fillable = ['name'];
-    public function equipment(): HasMany
+    public function service(): HasMany
     {
-        return $this->hasMany(Equipment::class);
+        return $this->hasMany(Service::class);
     }
 }
