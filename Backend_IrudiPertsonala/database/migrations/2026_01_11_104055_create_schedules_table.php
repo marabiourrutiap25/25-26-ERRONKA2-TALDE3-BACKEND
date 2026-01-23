@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->time('end_time');
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
