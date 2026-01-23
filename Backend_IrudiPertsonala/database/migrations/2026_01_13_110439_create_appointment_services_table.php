@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');;
             $table->foreignId('service_id')->constrained()->onDelete('cascade');;
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

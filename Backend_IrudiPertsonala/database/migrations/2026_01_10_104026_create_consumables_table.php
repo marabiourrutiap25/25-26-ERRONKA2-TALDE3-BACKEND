@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('expiration_date')->nullable();
             $table->foreignId('consumable_category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

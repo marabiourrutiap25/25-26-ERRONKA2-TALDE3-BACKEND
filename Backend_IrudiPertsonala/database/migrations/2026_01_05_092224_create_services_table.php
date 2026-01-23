@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->foreignId('service_category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

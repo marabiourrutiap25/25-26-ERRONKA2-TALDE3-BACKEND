@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->foreignId('equipment_category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
