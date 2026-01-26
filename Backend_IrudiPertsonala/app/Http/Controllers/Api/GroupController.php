@@ -110,4 +110,30 @@ class GroupController extends Controller
             'data' => 'Taldea ezabatuta'
         ], Response::HTTP_OK);
     }
+
+    // GPT-ado:
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Group::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+    public function deletedShow(string $id)
+    {
+        $group = Group::onlyTrashed()->find($id);
+
+        if (!$group) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Taldea ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $group
+        ], Response::HTTP_OK);
+    }
+
 }

@@ -110,4 +110,28 @@ class ConsumableCategoryController extends Controller
             'data' => 'Kategoria ezabatuta'
         ], Response::HTTP_OK);
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => ConsumableCategory::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $category = ConsumableCategory::onlyTrashed()->find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategoria ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $category
+        ], Response::HTTP_OK);
+    }
 }

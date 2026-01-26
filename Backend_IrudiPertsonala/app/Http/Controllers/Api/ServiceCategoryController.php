@@ -43,7 +43,7 @@ class ServiceCategoryController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -93,7 +93,7 @@ class ServiceCategoryController extends Controller
             } catch (ValidationException $e) {
                 return response()->json([
                     'success' => false,
-                    'errors'  => 'Datuak faltatzen dira.',
+                    'errors' => 'Datuak faltatzen dira.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -125,4 +125,29 @@ class ServiceCategoryController extends Controller
             ], Response::HTTP_OK);
         }
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => ServiceCategory::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $category = ServiceCategory::onlyTrashed()->find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Zerbitzu Kategoria ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $category
+        ], Response::HTTP_OK);
+    }
+
 }

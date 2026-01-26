@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Student;
@@ -105,7 +106,8 @@ class StudentController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $student->delete();
+        $student->delete();//AAA
+        Shift::where('student_id',$id)->delete();
 
         return response()->json([
             'success' => true,

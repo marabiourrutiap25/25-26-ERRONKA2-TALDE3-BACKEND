@@ -115,4 +115,29 @@ class ScheduleController extends Controller
             'data' => 'Ordutegia ezabatuta'
         ], Response::HTTP_OK);
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Schedules::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $schedule = Schedules::onlyTrashed()->find($id);
+
+        if (!$schedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ordutegia ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $schedule
+        ], Response::HTTP_OK);
+    }
+
 }

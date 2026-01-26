@@ -16,10 +16,10 @@ class StudentConsumableController extends Controller
     private function validationRules(): array
     {
         return [
-            'student_id'    => 'required|exists:students,id',
+            'student_id' => 'required|exists:students,id',
             'consumable_id' => 'required|exists:consumables,id',
-            'date'          => 'required|date',
-            'quantity'      => 'nullable|integer|min:1',
+            'date' => 'required|date',
+            'quantity' => 'nullable|integer|min:1',
         ];
     }
 
@@ -44,7 +44,7 @@ class StudentConsumableController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -95,7 +95,7 @@ class StudentConsumableController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -128,4 +128,30 @@ class StudentConsumableController extends Controller
             'data' => 'StudentConsumable ezabatuta'
         ], Response::HTTP_OK);
     }
+    // Métodos soft delete
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => StudentConsumable::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $studentConsumable = StudentConsumable::onlyTrashed()->find($id);
+
+        if (!$studentConsumable) {
+            return response()->json([
+                'success' => false,
+                'message' => 'StudentConsumable ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $studentConsumable
+        ], Response::HTTP_OK);
+    }
+
 }

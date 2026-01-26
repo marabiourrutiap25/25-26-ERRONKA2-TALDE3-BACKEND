@@ -112,4 +112,30 @@ class ShiftController extends Controller
             'data' => 'Txanda ezabatuta'
         ], Response::HTTP_OK);
     }
+    // Métodos soft delete
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Shift::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $shift = Shift::onlyTrashed()->find($id);
+
+        if (!$shift) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Txanda ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $shift
+        ], Response::HTTP_OK);
+    }
+
 }

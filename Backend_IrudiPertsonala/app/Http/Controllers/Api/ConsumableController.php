@@ -117,4 +117,28 @@ class ConsumableController extends Controller
             'data' => 'Konsumiblea ezabatuta'
         ], Response::HTTP_OK);
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Consumable::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+    public function deletedShow(string $id)
+    {
+        $consumable = Consumable::onlyTrashed()->find($id);
+
+        if (!$consumable) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Konsumiblea ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $consumable
+        ], Response::HTTP_OK);
+    }
+
 }

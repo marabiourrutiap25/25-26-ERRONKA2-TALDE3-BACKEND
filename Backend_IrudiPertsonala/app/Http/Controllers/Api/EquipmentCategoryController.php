@@ -42,7 +42,7 @@ class EquipmentCategoryController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -92,7 +92,7 @@ class EquipmentCategoryController extends Controller
             } catch (ValidationException $e) {
                 return response()->json([
                     'success' => false,
-                    'errors'  => 'Datuak faltatzen dira.',
+                    'errors' => 'Datuak faltatzen dira.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -124,4 +124,30 @@ class EquipmentCategoryController extends Controller
             ], Response::HTTP_OK);
         }
     }
+
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => EquipmentCategory::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $category = EquipmentCategory::onlyTrashed()->find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ekipamendu Kategoria ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $category
+        ], Response::HTTP_OK);
+    }
+
 }

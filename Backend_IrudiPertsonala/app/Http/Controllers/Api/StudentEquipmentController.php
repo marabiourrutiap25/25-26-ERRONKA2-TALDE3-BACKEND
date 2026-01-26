@@ -110,4 +110,30 @@ class StudentEquipmentController extends Controller
             'data' => 'StudentEquipment ezabatuta'
         ], Response::HTTP_OK);
     }
+    // Métodos soft delete
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => StudentEquipment::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $studentEquipment = StudentEquipment::onlyTrashed()->find($id);
+
+        if (!$studentEquipment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'StudentEquipment ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $studentEquipment
+        ], Response::HTTP_OK);
+    }
+
 }

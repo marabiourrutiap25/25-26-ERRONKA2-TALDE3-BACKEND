@@ -46,7 +46,7 @@ class ClientController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -96,7 +96,7 @@ class ClientController extends Controller
             } catch (ValidationException $e) {
                 return response()->json([
                     'success' => false,
-                    'errors'  => 'Datuak faltatzen dira.',
+                    'errors' => 'Datuak faltatzen dira.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -128,4 +128,28 @@ class ClientController extends Controller
             ], Response::HTTP_OK);
         }
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Client::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+    public function deletedShow(string $id)
+    {
+        $client = Client::onlyTrashed()->find($id);
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bezeroa ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $client
+        ], Response::HTTP_OK);
+    }
+
 }

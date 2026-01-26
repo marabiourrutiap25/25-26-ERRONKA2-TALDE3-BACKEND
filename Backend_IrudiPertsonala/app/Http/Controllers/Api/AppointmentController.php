@@ -129,4 +129,29 @@ class AppointmentController extends Controller
             ], Response::HTTP_OK);
         }
     }
+
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Appointment::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $appointment = Appointment::onlyTrashed()->find($id);
+
+        if (!$appointment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Hitzordua ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $appointment
+        ], Response::HTTP_OK);
+    }
 }

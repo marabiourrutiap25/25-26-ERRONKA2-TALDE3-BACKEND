@@ -46,7 +46,7 @@ class ServiceController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'errors'  => 'Datuak faltatzen dira.',
+                'errors' => 'Datuak faltatzen dira.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -96,7 +96,7 @@ class ServiceController extends Controller
             } catch (ValidationException $e) {
                 return response()->json([
                     'success' => false,
-                    'errors'  => 'Datuak faltatzen dira.',
+                    'errors' => 'Datuak faltatzen dira.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -128,4 +128,29 @@ class ServiceController extends Controller
             ], Response::HTTP_OK);
         }
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Service::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $service = Service::onlyTrashed()->find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Zerbitzua ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $service
+        ], Response::HTTP_OK);
+    }
+
 }

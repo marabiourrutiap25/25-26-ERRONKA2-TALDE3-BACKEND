@@ -109,4 +109,28 @@ class AppointmentServiceController extends Controller
             'data' => 'AppointmentService ezabatuta'
         ], Response::HTTP_OK);
     }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => AppointmentService::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+    public function deletedShow(string $id)
+    {
+        $appointmentService = AppointmentService::onlyTrashed()->find($id);
+
+        if (!$appointmentService) {
+            return response()->json([
+                'success' => false,
+                'message' => 'AppointmentService ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $appointmentService
+        ], Response::HTTP_OK);
+    }
+
 }
