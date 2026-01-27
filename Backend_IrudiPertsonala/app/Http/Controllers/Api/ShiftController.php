@@ -10,9 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class ShiftController extends Controller
 {
-    /**
-     * Reglas de validación reutilizables
-     */
     private function validationRules(): array
     {
         return [
