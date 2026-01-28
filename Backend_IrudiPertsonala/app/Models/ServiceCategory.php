@@ -5,12 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ServiceCategory extends Model
 {
     use SoftDeletes;
+
     protected $fillable = ['name'];
-    public function service(): HasMany
+
+    public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($category) {
+            $category->services()->update([
+                'service_category_id' => null
+            ]);
+        });
     }
 }
