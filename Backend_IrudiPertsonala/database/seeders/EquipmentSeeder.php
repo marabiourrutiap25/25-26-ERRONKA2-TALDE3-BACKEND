@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Equipment;
-use App\Models\EquipmentCategorie;
+use App\Models\EquipmentCategory;
 use Faker\Factory as Faker;
 
 class EquipmentSeeder extends Seeder
@@ -13,7 +13,7 @@ class EquipmentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categories = EquipmentCategorie::all();
+        $categories = EquipmentCategory::all();
         if ($categories->isEmpty())
             return;
 
@@ -23,7 +23,7 @@ class EquipmentSeeder extends Seeder
                 'name' => $faker->word(),
                 'description' => $faker->optional()->sentence() ?: null,
                 'brand' => $faker->optional()->company() ?: null,
-                'equipment_categories_id' => $categories->random()->id,
+                'equipment_category_id' => $categories->random()->id,
             ]);
         }
     }

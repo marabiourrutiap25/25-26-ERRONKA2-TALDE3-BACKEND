@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Service;
-use App\Models\ServiceCategorie;
+use App\Models\ServiceCategory;
 use Faker\Factory as Faker;
 
 class ServicesSeeder extends Seeder
@@ -13,7 +13,7 @@ class ServicesSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categories = ServiceCategorie::all();
+        $categories = ServiceCategory::all();
         if ($categories->isEmpty())
             return;
 
@@ -23,7 +23,7 @@ class ServicesSeeder extends Seeder
                 'price' => $faker->randomFloat(2, 50, 500),
                 'home_price' => $faker->randomFloat(2, 50, 500),
                 'duration' => $faker->optional()->numberBetween(30, 180) ?: null,
-                'service_categories_id' => $categories->random()->id,
+                'service_category_id' => $categories->random()->id,
             ]);
         }
     }

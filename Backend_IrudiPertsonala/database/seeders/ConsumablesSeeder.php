@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Consumable;
-use App\Models\ConsumablesCategorie;
+use App\Models\ConsumableCategory;
 use Faker\Factory as Faker;
 
 class ConsumablesSeeder extends Seeder
@@ -12,7 +12,7 @@ class ConsumablesSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        $categories = ConsumablesCategorie::all();
+        $categories = ConsumableCategory::all();
         if ($categories->isEmpty())
             return;
 
@@ -27,7 +27,7 @@ class ConsumablesSeeder extends Seeder
                 'stock' => $faker->numberBetween(5, 100),
                 'min_stock' => $faker->optional()->numberBetween(1, 10) ?: null,
                 'expiration_date' => $expiration ? $expiration->format('Y-m-d') : null,
-                'consumables_categorie_id' => $categories->random()->id,
+                'consumable_category_id' => $categories->random()->id,
             ]);
         }
     }

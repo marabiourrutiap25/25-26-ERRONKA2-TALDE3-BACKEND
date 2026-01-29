@@ -18,9 +18,10 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->text('comments')->nullable();
-            $table->foreignId('student_id')->constrained();
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
