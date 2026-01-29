@@ -80,3 +80,12 @@ Route::get('student-equipment-deleted/{id}', [StudentEquipmentController::class,
 
 Route::get('shifts-deleted', [ShiftController::class, 'deleted']);
 Route::get('shifts-deleted/{id}', [ShiftController::class, 'deletedShow']);
+
+// Bearer Token
+use App\Http\Controllers\Api\AuthController;
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('appointments', AppointmentController::class);
+});
