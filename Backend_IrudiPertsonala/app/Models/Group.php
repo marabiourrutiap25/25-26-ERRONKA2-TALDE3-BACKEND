@@ -17,7 +17,7 @@ class Group extends Model
 
     public function schedule(): HasMany
     {
-        return $this->hasMany(Schedules::class);
+        return $this->hasMany(Schedule::class);
     }
 
     protected static function booted()

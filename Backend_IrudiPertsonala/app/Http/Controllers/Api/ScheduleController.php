@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Schedules;
+use App\Models\Schedule;
 use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller
@@ -29,7 +29,7 @@ class ScheduleController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => Schedules::all()
+            'data' => Schedule::all()
         ], Response::HTTP_OK);
     }
 
@@ -44,7 +44,7 @@ class ScheduleController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        Schedules::create($validated);
+        Schedule::create($validated);
 
         return response()->json([
             'success' => true,
@@ -54,7 +54,7 @@ class ScheduleController extends Controller
 
     public function show(string $id)
     {
-        $schedule = Schedules::find($id);
+        $schedule = Schedule::find($id);
 
         if (!$schedule) {
             return response()->json([
@@ -71,7 +71,7 @@ class ScheduleController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $schedule = Schedules::find($id);
+        $schedule = Schedule::find($id);
 
         if (!$schedule) {
             return response()->json([
@@ -99,7 +99,7 @@ class ScheduleController extends Controller
 
     public function destroy(string $id)
     {
-        $schedule = Schedules::find($id);
+        $schedule = Schedule::find($id);
 
         if (!$schedule) {
             return response()->json([
@@ -119,13 +119,13 @@ class ScheduleController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => Schedules::onlyTrashed()->get()
+            'data' => Schedule::onlyTrashed()->get()
         ], Response::HTTP_OK);
     }
 
     public function deletedShow(string $id)
     {
-        $schedule = Schedules::onlyTrashed()->find($id);
+        $schedule = Schedule::onlyTrashed()->find($id);
 
         if (!$schedule) {
             return response()->json([
