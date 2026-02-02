@@ -3,8 +3,6 @@
 use App\Models\StudentConsumable;
 use App\Models\Student;
 use App\Models\Consumable;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all StudentConsumables erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -13,9 +11,6 @@ test('Get all StudentConsumables erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'student_id', 'consumable_id', 'date', 'quantity', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $student = Student::factory()->create();
     $consumable = Consumable::factory()->create();

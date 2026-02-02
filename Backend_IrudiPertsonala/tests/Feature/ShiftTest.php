@@ -2,8 +2,6 @@
 
 use App\Models\Shift;
 use App\Models\Student;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Shifts erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -12,9 +10,6 @@ test('Get all Shifts erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'type', 'data', 'student_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $student = Student::factory()->create();
 

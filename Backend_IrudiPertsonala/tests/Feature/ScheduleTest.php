@@ -2,9 +2,10 @@
 
 use App\Models\Schedule;
 use App\Models\Group;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\postJson;
+
+// Get All
 test('Get all Schedules erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',
@@ -12,9 +13,6 @@ test('Get all Schedules erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $group = Group::factory()->create();
 
@@ -29,4 +27,125 @@ test('Get all Schedules erantzun egokia bueltatzen du', function () {
     ]);
     $response->assertJsonCount(3, 'data');
     $response->assertJsonStructure($estructura);
+});
+
+// Get All soft-deleted
+test('Get all Schedules soft-delete egindakoak erantzun egokia bueltatzen du', function () {
+    $estructura = [
+        'success',
+        'data' => [
+            '*' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
+        ]
+    ];
+
+    $group = Group::factory()->create();
+
+    Schedule::factory()->count(3)->create([
+        'group_id' => $group->id
+    ]);
+
+    $response = $this->getJson('api/schedules');
+    $response->assertStatus(200);
+    $response->assertJson([
+        'success' => true,
+    ]);
+    $response->assertJsonCount(3, 'data');
+    $response->assertJsonStructure($estructura);
+});
+
+// Get one ongi
+test('Get one Schedule erantzun egokia bueltatzen du', function () {
+    $estructura = [
+        'success',
+        'data' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
+    ];
+
+    $group = Group::factory()->create();
+
+    $schedule = Schedule::factory()->create([
+        'group_id' => $group->id
+    ]);
+
+    $response = $this->getJson("api/schedules/{$schedule->id}");
+    $response->assertStatus(200);
+
+    $response->assertJson([
+        'success' => true,
+    ]);
+    $response->assertJsonStructure($estructura);
+    $response->assertJsonPath('data.id', $schedule->id);
+});
+
+// Get one existitzen ez duena
+test('Get one Schedule existitzen ez duena', function () {
+    $group = Group::factory()->create();
+
+    Schedule::factory()->create([
+        'group_id' => $group->id
+    ]);
+
+    $response = $this->getJson('api/schedules/99999');
+    $response->assertStatus(404);
+    $response->assertExactJson([
+        "success" => false,
+        "message" => "Ordutegiaren id-a ez da aurkitu"
+    ]);
+});
+
+// Get one soft delete
+test('Get one Schedule soft delete eginda dagoena ', function () {
+    $group = Group::factory()->create();
+
+    $schedule = Schedule::factory()->create([
+        'group_id' => $group->id
+    ]);
+
+    $response = $this->getJson('api/schedules/99999');
+    $response->assertStatus(404);
+    $response->assertExactJson([
+        "success" => false,
+        "message" => "Ordutegiaren id-a ez da aurkitu"
+    ]);
+});
+
+// Post ongi
+test('Post one Schedule erantzun egokia bueltatzen du', function () {
+    $group = Group::factory()->create();
+
+    $response = postJson('api/schedules', [
+        "day" => 1,
+        "start_date" => "2026-02-01",
+        "end_date" => "2026-02-10",
+        "start_time" => "09:49:09",
+        "end_time" => "10:49:09",
+        "group_id" => $group->id
+    ]);
+
+    $response->assertStatus(201);
+
+    $response->assertExactJson([
+        "success" => true,
+        "message" => "Ordutegia sortu egin da"
+    ]);
+});
+
+// Post txarto
+test('Post one Schedule erantzun okerra bueltatzen du, datu falta', function () {
+    $group = Group::factory()->create();
+
+    $response = postJson('api/schedules', [
+        "day" => 1,
+        "start_date" => "2026-02-01",
+        "end_date" => "2026-02-10",
+        "start_time" => "09:49:09",
+        "end_time" => "10:49:09",
+        "group_id" => "999999"
+    ]);
+
+    $response->assertStatus(422);
+
+    $response->assertExactJson([
+        "success" => false,
+        "errors" => "Datuak faltatzen dira."
+    ]);
 });

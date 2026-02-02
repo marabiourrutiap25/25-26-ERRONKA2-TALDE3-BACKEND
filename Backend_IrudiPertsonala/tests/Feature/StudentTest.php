@@ -2,8 +2,6 @@
 
 use App\Models\Student;
 use App\Models\Group;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Students erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -12,9 +10,6 @@ test('Get all Students erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'name', 'surnames', 'group_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $group = Group::factory()->create();
 

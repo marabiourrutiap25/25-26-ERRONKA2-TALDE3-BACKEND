@@ -2,8 +2,6 @@
 
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Services erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -12,9 +10,6 @@ test('Get all Services erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'name', 'price', 'home_price', 'duration', 'service_category_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $category = ServiceCategory::factory()->create();
 

@@ -2,8 +2,6 @@
 
 use App\Models\Equipment;
 use App\Models\EquipmentCategory;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Equipments erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -12,9 +10,6 @@ test('Get all Equipments erantzun egokia bueltatzen du', function () {
             '*' => ['id', 'label', 'name', 'description', 'brand', 'equipment_category_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $category = EquipmentCategory::factory()->create();
 

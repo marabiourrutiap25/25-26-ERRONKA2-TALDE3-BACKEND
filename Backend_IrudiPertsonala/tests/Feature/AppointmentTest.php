@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Appointment;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Appointments erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -23,9 +21,6 @@ test('Get all Appointments erantzun egokia bueltatzen du', function () {
             ]
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     Appointment::factory()->count(3)->create();
 

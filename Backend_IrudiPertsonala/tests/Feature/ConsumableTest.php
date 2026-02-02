@@ -2,8 +2,6 @@
 
 use App\Models\Consumable;
 use App\Models\ConsumableCategory;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 test('Get all Consumables erantzun egokia bueltatzen du', function () {
     $estructura = [
@@ -25,9 +23,6 @@ test('Get all Consumables erantzun egokia bueltatzen du', function () {
             ]
         ]
     ];
-
-    $user = User::factory()->create();
-    Sanctum::actingAs($user);
 
     $category = ConsumableCategory::factory()->create();
 
