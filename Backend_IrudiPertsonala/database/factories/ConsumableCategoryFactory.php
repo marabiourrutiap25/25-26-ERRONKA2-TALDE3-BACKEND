@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Group;
+use App\Models\ConsumableCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GroupFactory extends Factory
+class ConsumableCategoryFactory extends Factory
 {
-    protected $model = Group::class;
+    protected $model = ConsumableCategory::class;
 
     public function definition(): array
     {

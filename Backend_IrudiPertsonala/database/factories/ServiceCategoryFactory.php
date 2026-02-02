@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Group;
+use App\Models\ServiceCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GroupFactory extends Factory
+class ServiceCategoryFactory extends Factory
 {
-    protected $model = Group::class;
+    protected $model = ServiceCategory::class;
 
     public function definition(): array
     {

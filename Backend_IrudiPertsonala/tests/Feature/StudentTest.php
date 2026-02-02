@@ -1,15 +1,15 @@
 <?php
 
-use App\Models\Schedule;
+use App\Models\Student;
 use App\Models\Group;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-test('Get all Schedules erantzun egokia bueltatzen du', function () {
+test('Get all Students erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',
         'data' => [
-            '*' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
+            '*' => ['id', 'name', 'surnames', 'group_id', 'created_at', 'updated_at', 'deleted_at']
         ]
     ];
 
@@ -18,11 +18,11 @@ test('Get all Schedules erantzun egokia bueltatzen du', function () {
 
     $group = Group::factory()->create();
 
-    Schedule::factory()->count(3)->create([
+    Student::factory()->count(3)->create([
         'group_id' => $group->id
     ]);
 
-    $response = $this->getJson('api/schedules');
+    $response = $this->getJson('api/students');
     $response->assertStatus(200);
     $response->assertJson([
         'success' => true,
