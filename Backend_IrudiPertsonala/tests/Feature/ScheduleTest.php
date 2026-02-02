@@ -17,7 +17,7 @@ test('Get all Schedules erantzun egokia bueltatzen du', function () {
 
     Schedule::factory()->count(3)->create();
 
-    $response = $this->getJson('/schedules');
+    $response = $this->getJson('api/schedules');
     $response->assertStatus(200);
     $response->assertJson([
         'success' => true,

@@ -16,25 +16,6 @@ class User extends Authenticatable
         'email',
         'password',
         'rol',
-    ];
-
-    protected $hidden = [
-        'password',
         'remember_token',
     ];
 }
-
-/*
- php artisan tinker
-
- use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-User::create([
-    'username' => 'a',
-    'email' => 'a@example.com',
-    'rol' => 'admin',
-    'password' => Hash::make('a')
-]);
-
- **/
