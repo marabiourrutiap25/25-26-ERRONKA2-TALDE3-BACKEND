@@ -80,12 +80,6 @@ test('Get one Schedule erantzun egokia bueltatzen du', function () {
 
 // Get one existitzen ez duena
 test('Get one Schedule existitzen ez duena', function () {
-    $group = Group::factory()->create();
-
-    Schedule::factory()->create([
-        'group_id' => $group->id
-    ]);
-
     $response = $this->getJson('api/schedules/99999');
     $response->assertStatus(404);
     $response->assertExactJson([
