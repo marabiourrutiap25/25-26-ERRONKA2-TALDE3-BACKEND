@@ -96,7 +96,7 @@ test('Get one Schedule soft delete eginda dagoena ', function () {
 });
 
 // Post ongi
-test('Post one Schedule erantzun egokia bueltatzen du', function () {
+test('Post Schedule erantzun egokia bueltatzen du', function () {
     $group = Group::factory()->create();
 
     $response = postJson('api/schedules', [
@@ -117,7 +117,7 @@ test('Post one Schedule erantzun egokia bueltatzen du', function () {
 });
 
 // Post txarto
-test('Post one Schedule erantzun okerra bueltatzen du, datu falta', function () {
+test('Post Schedule erantzun okerra bueltatzen du, datu falta', function () {
     $response = postJson('api/schedules', [
         "day" => 1,
         "start_date" => "2026-02-01",
@@ -135,7 +135,7 @@ test('Post one Schedule erantzun okerra bueltatzen du, datu falta', function () 
 });
 
 // Put ongi
-test('Put one Schedule erantzun egokia bueltatzen du', function () {
+test('Put Schedule erantzun egokia bueltatzen du', function () {
     $schedule = Schedule::factory()->create([
         'day' => "7"
     ]);
@@ -161,5 +161,70 @@ test('Put one Schedule erantzun egokia bueltatzen du', function () {
     $scheduleAldatuta->assertJson([
         'success' => true,
         'data' => $scheduleUpdated
+    ]);
+});
+
+// Put txarto datuak falta
+test('Put Schedule erantzun okerra bueltatzen du, datuak faltatzen dira', function () {
+    $schedule = Schedule::factory()->create();
+
+    $scheduleUpdated = [
+        "day" => 1,
+    ];
+
+    $response = $this->putJson("api/schedules/{$schedule->id}", $scheduleUpdated);
+
+    $response->assertStatus(422);
+    $response->assertExactJson([
+        'success' => false,
+        'errors' => 'Datuak faltatzen dira.',
+    ]);
+});
+
+// Put txarto existitzen ez den id-a
+test('Put Schedule erantzun okerra bueltatzen du, id-a ez du existitzen', function () {
+    $schedule = Schedule::factory()->create();
+
+    $scheduleUpdated = [
+        "day" => 1,
+        "start_date" => "2026-02-01",
+        "end_date" => "2026-02-10",
+        "start_time" => "09:00:00",
+        "end_time" => "10:00:00",
+        "group_id" => $schedule->group_id
+    ];
+
+    $response = $this->putJson("api/schedules/99999", $scheduleUpdated);
+
+    $response->assertStatus(404);
+    $response->assertExactJson([
+        'success' => false,
+        'message' => 'Ordutegiaren id-a ez da aurkitu'
+    ]);
+});
+
+// Delete ongi
+test('Delete Schedule erantzun egokia bueltatzen du', function () {
+    $schedule = Schedule::factory()->create();
+
+    $response = $this->deleteJson("api/schedules/{$schedule->id}");
+    $response->assertStatus(200);
+
+    $response->assertExactJson([
+        'success' => true,
+        'message' => 'Ordutegia ezabatuta'
+    ]);
+});
+
+// Delete txarto (ez du existitzen/soft-delete badago eginda)
+test('Delete Schedule existitzen ez duena edo soft-delete eginda dago', function () {
+    $schedule = Schedule::factory()->create();
+    $this->deleteJson("api/schedules/{$schedule->id}");
+
+    $response = $this->deleteJson("api/schedules/{$schedule->id}");
+    $response->assertStatus(404);
+    $response->assertExactJson([
+        "success" => false,
+        "message" => "Ordutegiaren id-a ez da aurkitu"
     ]);
 });

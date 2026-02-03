@@ -104,7 +104,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return response()->json([
                 'success' => false,
-                'data' => 'Ordutegiaren id-a ez da aurkitu'
+                'message' => 'Ordutegiaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -112,9 +112,10 @@ class ScheduleController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Ordutegia ezabatuta'
+            'message' => 'Ordutegia ezabatuta'
         ], Response::HTTP_OK);
     }
+
     public function deleted()
     {
         return response()->json([
