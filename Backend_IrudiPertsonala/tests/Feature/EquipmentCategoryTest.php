@@ -2,6 +2,7 @@
 
 use App\Models\EquipmentCategory;
 
+// Get All
 test('Get all EquipmentCategories erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

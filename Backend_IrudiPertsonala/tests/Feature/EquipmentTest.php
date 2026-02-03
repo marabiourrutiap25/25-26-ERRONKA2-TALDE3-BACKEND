@@ -3,6 +3,7 @@
 use App\Models\Equipment;
 use App\Models\EquipmentCategory;
 
+// Get All
 test('Get all Equipments erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

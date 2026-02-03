@@ -3,6 +3,7 @@
 use App\Models\Service;
 use App\Models\ServiceCategory;
 
+// Get All
 test('Get all Services erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

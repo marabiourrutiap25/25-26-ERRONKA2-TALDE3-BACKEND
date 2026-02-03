@@ -2,6 +2,7 @@
 
 use App\Models\Client;
 
+// Get All
 test('Get all Clients erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

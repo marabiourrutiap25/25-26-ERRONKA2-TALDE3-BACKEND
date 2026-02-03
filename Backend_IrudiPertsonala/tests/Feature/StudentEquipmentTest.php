@@ -4,6 +4,7 @@ use App\Models\StudentEquipment;
 use App\Models\Student;
 use App\Models\Equipment;
 
+// Get All
 test('Get all StudentEquipments erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

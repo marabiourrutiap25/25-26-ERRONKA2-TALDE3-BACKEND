@@ -2,6 +2,7 @@
 
 use App\Models\Group;
 
+// Get All
 test('Get all Groups erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

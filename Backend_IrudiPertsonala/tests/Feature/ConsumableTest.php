@@ -3,6 +3,7 @@
 use App\Models\Consumable;
 use App\Models\ConsumableCategory;
 
+// Get All
 test('Get all Consumables erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

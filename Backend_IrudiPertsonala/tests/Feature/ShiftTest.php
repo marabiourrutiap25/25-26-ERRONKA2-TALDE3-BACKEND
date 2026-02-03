@@ -3,6 +3,7 @@
 use App\Models\Shift;
 use App\Models\Student;
 
+// Get All
 test('Get all Shifts erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',
