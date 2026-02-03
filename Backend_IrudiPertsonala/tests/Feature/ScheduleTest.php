@@ -14,11 +14,7 @@ test('Get all Schedules erantzun egokia bueltatzen du', function () {
         ]
     ];
 
-    $group = Group::factory()->create();
-
-    Schedule::factory()->count(3)->create([
-        'group_id' => $group->id
-    ]);
+    Schedule::factory()->count(3)->create();
 
     $response = $this->getJson('api/schedules');
     $response->assertStatus(200);
@@ -38,11 +34,7 @@ test('Get all Schedules soft-delete egindakoak erantzun egokia bueltatzen du', f
         ]
     ];
 
-    $group = Group::factory()->create();
-
-    $schedules = Schedule::factory()->count(3)->create([
-        'group_id' => $group->id
-    ]);
+    $schedules = Schedule::factory()->count(3)->create();
 
     $schedules->each->delete();
 
@@ -62,11 +54,7 @@ test('Get one Schedule erantzun egokia bueltatzen du', function () {
         'data' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
     ];
 
-    $group = Group::factory()->create();
-
-    $schedule = Schedule::factory()->create([
-        'group_id' => $group->id
-    ]);
+    $schedule = Schedule::factory()->create();
 
     $response = $this->getJson("api/schedules/{$schedule->id}");
     $response->assertStatus(200);
@@ -95,11 +83,7 @@ test('Get one Schedule soft delete eginda dagoena ', function () {
         'data' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
     ];
 
-    $group = Group::factory()->create();
-
-    $schedule = Schedule::factory()->create([
-        'group_id' => $group->id
-    ]);
+    $schedule = Schedule::factory()->create();
 
     $schedule->delete();
 
@@ -147,5 +131,35 @@ test('Post one Schedule erantzun okerra bueltatzen du, datu falta', function () 
     $response->assertExactJson([
         "success" => false,
         "errors" => "Datuak faltatzen dira."
+    ]);
+});
+
+// Put ongi
+test('Put one Schedule erantzun egokia bueltatzen du', function () {
+    $schedule = Schedule::factory()->create([
+        'day' => "7"
+    ]);
+
+    $scheduleUpdated = [
+        "day" => 1,
+        "start_date" => "2026-02-01",
+        "end_date" => "2026-02-10",
+        "start_time" => "09:00:00",
+        "end_time" => "10:00:00",
+        "group_id" => $schedule->group_id
+    ];
+
+    $response = $this->putJson("api/schedules/{$schedule->id}", $scheduleUpdated);
+
+    $response->assertStatus(200);
+    $response->assertExactJson([
+        'success' => true,
+        'message' => 'Ordutegia eguneratu da',
+    ]);
+
+    $scheduleAldatuta = $this->getJson("api/schedules/{$schedule->id}");
+    $scheduleAldatuta->assertJson([
+        'success' => true,
+        'data' => $scheduleUpdated
     ]);
 });
