@@ -2,6 +2,7 @@
 
 use App\Models\ServiceCategory;
 
+// Get All
 test('Get all ServiceCategories erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

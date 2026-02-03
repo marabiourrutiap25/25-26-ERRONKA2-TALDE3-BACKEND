@@ -4,6 +4,7 @@ use App\Models\StudentConsumable;
 use App\Models\Student;
 use App\Models\Consumable;
 
+// Get All
 test('Get all StudentConsumables erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',

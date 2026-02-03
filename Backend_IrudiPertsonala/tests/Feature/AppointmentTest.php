@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 
+// Get All
 test('Get all Appointments erantzun egokia bueltatzen du', function () {
     $estructura = [
         'success',
