@@ -59,7 +59,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ordutegiaren id-a ez da aurkitu'
+                'errors' => 'Ordutegiaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -76,7 +76,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ordutegiaren id-a ez da aurkitu'
+                'errors' => 'Ordutegiaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -104,7 +104,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ordutegiaren id-a ez da aurkitu'
+                'errors' => 'Ordutegiaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -131,7 +131,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ordutegia ez da aurkitu (soft deleted)'
+                'errors' => 'Ordutegia ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

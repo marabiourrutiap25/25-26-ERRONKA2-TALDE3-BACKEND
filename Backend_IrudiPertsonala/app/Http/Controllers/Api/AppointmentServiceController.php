@@ -53,7 +53,7 @@ class AppointmentServiceController extends Controller
         if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'message' => 'AppointmentService id-a ez da aurkitu'
+                'errors' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -70,7 +70,7 @@ class AppointmentServiceController extends Controller
         if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'message' => 'AppointmentService id-a ez da aurkitu'
+                'errors' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -98,7 +98,7 @@ class AppointmentServiceController extends Controller
         if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'data' => 'AppointmentService id-a ez da aurkitu'
+                'errors' => 'AppointmentService id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -106,7 +106,7 @@ class AppointmentServiceController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'AppointmentService ezabatuta'
+            'message' => 'AppointmentService ezabatuta'
         ], Response::HTTP_OK);
     }
     public function deleted()
@@ -123,7 +123,7 @@ class AppointmentServiceController extends Controller
         if (!$appointmentService) {
             return response()->json([
                 'success' => false,
-                'message' => 'AppointmentService ez da aurkitu (soft deleted)'
+                'errors' => 'AppointmentService ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

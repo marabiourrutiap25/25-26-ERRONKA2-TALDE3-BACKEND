@@ -70,7 +70,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -90,7 +90,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -119,13 +119,13 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'data' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $appointment->delete();
             return response()->json([
                 'success' => true,
-                'data' => 'Hitzordua ezabatuta'
+                'message' => 'Hitzordua ezabatuta'
             ], Response::HTTP_OK);
         }
     }
@@ -145,7 +145,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzordua ez da aurkitu (soft deleted)'
+                'errors' => 'Hitzordua ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

@@ -54,7 +54,7 @@ class GroupController extends Controller
         if (!$group) {
             return response()->json([
                 'success' => false,
-                'message' => 'Taldearen id-a ez da aurkitu'
+                'errors' => 'Taldearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -71,7 +71,7 @@ class GroupController extends Controller
         if (!$group) {
             return response()->json([
                 'success' => false,
-                'message' => 'Taldearen id-a ez da aurkitu'
+                'errors' => 'Taldearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -99,7 +99,7 @@ class GroupController extends Controller
         if (!$group) {
             return response()->json([
                 'success' => false,
-                'data' => 'Taldearen id-a ez da aurkitu'
+                'errors' => 'Taldearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -107,7 +107,7 @@ class GroupController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Taldea ezabatuta'
+            'message' => 'Taldea ezabatuta'
         ], Response::HTTP_OK);
     }
 
@@ -126,7 +126,7 @@ class GroupController extends Controller
         if (!$group) {
             return response()->json([
                 'success' => false,
-                'message' => 'Taldea ez da aurkitu (soft deleted)'
+                'errors' => 'Taldea ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

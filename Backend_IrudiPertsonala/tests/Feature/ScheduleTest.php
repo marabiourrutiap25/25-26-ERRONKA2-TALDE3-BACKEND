@@ -72,7 +72,7 @@ test('Get one Schedule existitzen ez duena', function () {
     $response->assertStatus(404);
     $response->assertExactJson([
         "success" => false,
-        "message" => "Ordutegiaren id-a ez da aurkitu"
+        "errors" => "Ordutegiaren id-a ez da aurkitu"
     ]);
 });
 
@@ -199,7 +199,7 @@ test('Put Schedule erantzun okerra bueltatzen du, id-a ez du existitzen', functi
     $response->assertStatus(404);
     $response->assertExactJson([
         'success' => false,
-        'message' => 'Ordutegiaren id-a ez da aurkitu'
+        'errors' => 'Ordutegiaren id-a ez da aurkitu'
     ]);
 });
 
@@ -225,6 +225,6 @@ test('Delete Schedule existitzen ez duena edo soft-delete eginda dago', function
     $response->assertStatus(404);
     $response->assertExactJson([
         "success" => false,
-        "message" => "Ordutegiaren id-a ez da aurkitu"
+        "errors" => "Ordutegiaren id-a ez da aurkitu"
     ]);
 });
