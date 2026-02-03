@@ -40,11 +40,13 @@ test('Get all Schedules soft-delete egindakoak erantzun egokia bueltatzen du', f
 
     $group = Group::factory()->create();
 
-    Schedule::factory()->count(3)->create([
+    $schedules = Schedule::factory()->count(3)->create([
         'group_id' => $group->id
     ]);
 
-    $response = $this->getJson('api/schedules');
+    $schedules->each->delete();
+
+    $response = $this->getJson('api/schedules-deleted');
     $response->assertStatus(200);
     $response->assertJson([
         'success' => true,
@@ -94,18 +96,25 @@ test('Get one Schedule existitzen ez duena', function () {
 
 // Get one soft delete
 test('Get one Schedule soft delete eginda dagoena ', function () {
+    $estructura = [
+        'success',
+        'data' => ['id', 'day', 'start_date', 'end_date', 'start_time', 'end_time', 'group_id', 'created_at', 'updated_at', 'deleted_at']
+    ];
+
     $group = Group::factory()->create();
 
     $schedule = Schedule::factory()->create([
         'group_id' => $group->id
     ]);
 
-    $response = $this->getJson('api/schedules/99999');
-    $response->assertStatus(404);
-    $response->assertExactJson([
-        "success" => false,
-        "message" => "Ordutegiaren id-a ez da aurkitu"
+    $schedule->delete();
+
+    $response = $this->getJson("api/schedules-deleted/{$schedule->id}");
+    $response->assertStatus(200);
+    $response->assertJson([
+        'success' => true,
     ]);
+    $response->assertJsonStructure($estructura);
 });
 
 // Post ongi
@@ -131,15 +140,12 @@ test('Post one Schedule erantzun egokia bueltatzen du', function () {
 
 // Post txarto
 test('Post one Schedule erantzun okerra bueltatzen du, datu falta', function () {
-    $group = Group::factory()->create();
-
     $response = postJson('api/schedules', [
         "day" => 1,
         "start_date" => "2026-02-01",
         "end_date" => "2026-02-10",
         "start_time" => "09:49:09",
-        "end_time" => "10:49:09",
-        "group_id" => "999999"
+        "end_time" => "10:49:09"
     ]);
 
     $response->assertStatus(422);
