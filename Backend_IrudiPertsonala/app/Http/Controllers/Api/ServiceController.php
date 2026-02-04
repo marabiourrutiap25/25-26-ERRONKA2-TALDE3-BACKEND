@@ -68,7 +68,7 @@ class ServiceController extends Controller
         if (!$service) {
             return response()->json([
                 'success' => false,
-                'message' => 'Zerbitzuaren id-a ez da aurkitu'
+                'errors' => 'Zerbitzuaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -88,7 +88,7 @@ class ServiceController extends Controller
         if (!$service) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamenduen id-a ez da aurkitu'
+                'errors' => 'Ekipamenduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -118,13 +118,13 @@ class ServiceController extends Controller
         if (!$service) {
             return response()->json([
                 'success' => false,
-                'data' => 'Zerbitzuaren id-a ez da aurkitu'
+                'errors' => 'Zerbitzuaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $service->delete();
             return response()->json([
                 'success' => true,
-                'data' => 'Zerbitzua ezabatuta'
+                'message' => 'Zerbitzua ezabatuta'
             ], Response::HTTP_OK);
         }
     }
@@ -143,7 +143,7 @@ class ServiceController extends Controller
         if (!$service) {
             return response()->json([
                 'success' => false,
-                'message' => 'Zerbitzua ez da aurkitu (soft deleted)'
+                'errors' => 'Zerbitzua ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

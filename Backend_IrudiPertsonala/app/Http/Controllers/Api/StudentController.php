@@ -57,7 +57,7 @@ class StudentController extends Controller
         if (!$student) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ikaslearen id-a ez da aurkitu'
+                'errors' => 'Ikaslearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -74,7 +74,7 @@ class StudentController extends Controller
         if (!$student) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ikaslearen id-a ez da aurkitu'
+                'errors' => 'Ikaslearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -102,7 +102,7 @@ class StudentController extends Controller
         if (!$student) {
             return response()->json([
                 'success' => false,
-                'data' => 'Ikaslearen id-a ez da aurkitu'
+                'errors' => 'Ikaslearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -111,7 +111,7 @@ class StudentController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Ikaslea ezabatuta'
+            'message' => 'Ikaslea ezabatuta'
         ], Response::HTTP_OK);
     }
 }

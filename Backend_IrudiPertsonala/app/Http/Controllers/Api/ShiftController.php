@@ -53,7 +53,7 @@ class ShiftController extends Controller
         if (!$shift) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'errors' => 'Txandaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -70,7 +70,7 @@ class ShiftController extends Controller
         if (!$shift) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txandaren id-a ez da aurkitu'
+                'errors' => 'Txandaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -98,7 +98,7 @@ class ShiftController extends Controller
         if (!$shift) {
             return response()->json([
                 'success' => false,
-                'data' => 'Txandaren id-a ez da aurkitu'
+                'errors' => 'Txandaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -106,7 +106,7 @@ class ShiftController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Txanda ezabatuta'
+            'message' => 'Txanda ezabatuta'
         ], Response::HTTP_OK);
     }
     // Métodos soft delete
@@ -125,7 +125,7 @@ class ShiftController extends Controller
         if (!$shift) {
             return response()->json([
                 'success' => false,
-                'message' => 'Txanda ez da aurkitu (soft deleted)'
+                'errors' => 'Txanda ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 
