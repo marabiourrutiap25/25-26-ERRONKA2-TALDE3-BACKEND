@@ -41,24 +41,25 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        try {
-            $validated = $request->validate($this->validationRules());
-        } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        Appointment::create($validated);
-
+ public function store(Request $request)
+{
+    try {
+        $validated = $request->validate($this->validationRules());
+    } catch (ValidationException $e) {
         return response()->json([
-            'success' => true,
-            'message' => 'Zerbitzu Kategoria sortu egin da'
-        ], Response::HTTP_CREATED);
+            'success' => false,
+            'errors' => 'Datuak faltatzen dira.',
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    Appointment::create($validated);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Hitzordua sortu egin da'
+    ], Response::HTTP_CREATED);
+}
+
 
     /**
      * Display the specified resource.
