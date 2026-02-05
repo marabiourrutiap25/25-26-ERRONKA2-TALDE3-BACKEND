@@ -88,7 +88,7 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Bezeroen id-a ez da aurkitu'
+                'errors' => 'Bezeroaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -118,7 +118,7 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Bezeroen id-a ez da aurkitu'
+                'errors' => 'Bezeroaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $client->delete();
