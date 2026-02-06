@@ -12,7 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          path: Backend_IrudiPertsonala
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
