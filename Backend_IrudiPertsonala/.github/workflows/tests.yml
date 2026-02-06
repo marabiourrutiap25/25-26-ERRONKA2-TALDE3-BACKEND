@@ -2,42 +2,30 @@ name: Laravel Tests
 
 on:
   push:
-    branches: ["*"]        # se ejecuta en cualquier rama
+    branches: ["*"]
   pull_request:
-    branches: ["*"]        # se ejecuta en cualquier PR
+    branches: ["*"]
 
 jobs:
   tests:
     runs-on: ubuntu-latest
 
     steps:
-      # Clona el repositorio
       - uses: actions/checkout@v4
 
-      # Opcional: lista el contenido de la carpeta Laravel para debug
-      - name: List files in Laravel folder
-        run: ls -l Backend_IrudiPertsonala
-
-      # Configura PHP con extensiones necesarias
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: mbstring, pdo, pdo_sqlite
 
-      # Instala dependencias en la carpeta de Laravel
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
-        working-directory: Backend_IrudiPertsonala
 
-      # Prepara el entorno
       - name: Prepare environment
         run: |
           cp .env.testing .env
           php artisan key:generate
-        working-directory: Backend_IrudiPertsonala
 
-      # Ejecuta los tests
       - name: Run tests
         run: php artisan test
-        working-directory: Backend_IrudiPertsonala
