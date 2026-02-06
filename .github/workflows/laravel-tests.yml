@@ -11,27 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Clonar el repositorio en la raíz
       - uses: actions/checkout@v4
-      
-      # Configurar PHP
+        with:
+          path: .   # Clona en la raíz del runner
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: mbstring, pdo, pdo_sqlite
 
-      # Instalar dependencias
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
 
-      # Preparar el entorno de pruebas
       - name: Prepare environment
         run: |
           cp .env.testing .env
           php artisan key:generate
 
-      # Ejecutar los tests de Laravel
       - name: Run tests
         run: php artisan test
-        working-directory: 25-26-ERRONKA2-TALDE3-BACKEND
