@@ -61,7 +61,7 @@ class ConsumableController extends Controller
         if (!$consumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'Konsumiblearen id-a ez da aurkitu'
+                'errors' => 'Konsumiblearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -78,7 +78,7 @@ class ConsumableController extends Controller
         if (!$consumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'Konsumiblearen id-a ez da aurkitu'
+                'errors' => 'Konsumiblearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -106,7 +106,7 @@ class ConsumableController extends Controller
         if (!$consumable) {
             return response()->json([
                 'success' => false,
-                'data' => 'Konsumiblearen id-a ez da aurkitu'
+                'errors' => 'Konsumiblearen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -114,7 +114,7 @@ class ConsumableController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Konsumiblea ezabatuta'
+            'message' => 'Konsumiblea ezabatuta'
         ], Response::HTTP_OK);
     }
     public function deleted()
@@ -131,7 +131,7 @@ class ConsumableController extends Controller
         if (!$consumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'Konsumiblea ez da aurkitu (soft deleted)'
+                'errors' => 'Konsumiblea ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

@@ -68,7 +68,7 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'message' => 'Bezero id-a ez da aurkitu'
+                'errors' => 'Bezero id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -88,7 +88,7 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'message' => 'Bezeroen id-a ez da aurkitu'
+                'errors' => 'Bezeroaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -118,13 +118,13 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'data' => 'Bezeroen id-a ez da aurkitu'
+                'errors' => 'Bezeroaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $client->delete();
             return response()->json([
                 'success' => true,
-                'data' => 'Bezeroa ezabatuta'
+                'message' => 'Bezeroa ezabatuta'
             ], Response::HTTP_OK);
         }
     }
@@ -142,7 +142,7 @@ class ClientController extends Controller
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'message' => 'Bezeroa ez da aurkitu (soft deleted)'
+                'errors' => 'Bezeroa ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

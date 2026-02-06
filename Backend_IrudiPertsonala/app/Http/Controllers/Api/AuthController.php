@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erabiltzaile edo pasahitza okerrak.'
+                'errors' => 'Erabiltzaile edo pasahitza okerrak.'
             ], Response::HTTP_UNAUTHORIZED);
         }
 

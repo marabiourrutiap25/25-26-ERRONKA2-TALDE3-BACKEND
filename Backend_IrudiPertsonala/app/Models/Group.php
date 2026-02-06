@@ -1,11 +1,13 @@
 <?php namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = ['name'];
@@ -17,7 +19,7 @@ class Group extends Model
 
     public function schedule(): HasMany
     {
-        return $this->hasMany(Schedules::class);
+        return $this->hasMany(Schedule::class);
     }
 
     protected static function booted()

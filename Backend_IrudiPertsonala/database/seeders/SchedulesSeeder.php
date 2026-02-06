@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Schedules;
+use App\Models\Schedule;
 use App\Models\Group;
 use Faker\Factory as Faker;
 
@@ -29,7 +29,7 @@ class SchedulesSeeder extends Seeder
             $startTime = $faker->time('H:i:s');
             $endTime = date('H:i:s', strtotime($startTime) + 3600); // +1 hora
 
-            Schedules::create([
+            Schedule::create([
                 'day' => $faker->numberBetween(1, 7),
                 'start_date' => $startDate->format('Y-m-d'),
                 'end_date' => $endDate->format('Y-m-d'),

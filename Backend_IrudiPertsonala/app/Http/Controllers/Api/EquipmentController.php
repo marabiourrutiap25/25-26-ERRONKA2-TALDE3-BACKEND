@@ -68,7 +68,7 @@ class EquipmentController extends Controller
         if (!$equipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamenduen id-a ez da aurkitu'
+                'errors' => 'Ekipamenduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -88,7 +88,7 @@ class EquipmentController extends Controller
         if (!$equipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamenduen id-a ez da aurkitu'
+                'errors' => 'Ekipamenduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -118,13 +118,13 @@ class EquipmentController extends Controller
         if (!$equipment) {
             return response()->json([
                 'success' => false,
-                'data' => 'Ekipamenduen id-a ez da aurkitu'
+                'errors' => 'Ekipamenduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $equipment->delete();
             return response()->json([
                 'success' => true,
-                'data' => 'Ekipamendua ezabatuta'
+                'message' => 'Ekipamendua ezabatuta'
             ], Response::HTTP_OK);
         }
     }
@@ -143,7 +143,7 @@ class EquipmentController extends Controller
         if (!$equipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendua ez da aurkitu (soft deleted)'
+                'errors' => 'Ekipamendua ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

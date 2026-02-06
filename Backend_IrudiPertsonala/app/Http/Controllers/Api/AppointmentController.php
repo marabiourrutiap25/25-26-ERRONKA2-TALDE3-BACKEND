@@ -41,24 +41,25 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        try {
-            $validated = $request->validate($this->validationRules());
-        } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'errors' => 'Datuak faltatzen dira.',
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        Appointment::create($validated);
-
+ public function store(Request $request)
+{
+    try {
+        $validated = $request->validate($this->validationRules());
+    } catch (ValidationException $e) {
         return response()->json([
-            'success' => true,
-            'message' => 'Zerbitzu Kategoria sortu egin da'
-        ], Response::HTTP_CREATED);
+            'success' => false,
+            'errors' => 'Datuak faltatzen dira.',
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    Appointment::create($validated);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Hitzordua sortu egin da'
+    ], Response::HTTP_CREATED);
+}
+
 
     /**
      * Display the specified resource.
@@ -70,7 +71,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -90,7 +91,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -119,13 +120,13 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'data' => 'Hitzorduen id-a ez da aurkitu'
+                'errors' => 'Hitzorduen id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $appointment->delete();
             return response()->json([
                 'success' => true,
-                'data' => 'Hitzordua ezabatuta'
+                'message' => 'Hitzordua ezabatuta'
             ], Response::HTTP_OK);
         }
     }
@@ -145,7 +146,7 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hitzordua ez da aurkitu (soft deleted)'
+                'errors' => 'Hitzordua ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

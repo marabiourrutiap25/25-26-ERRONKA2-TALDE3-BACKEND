@@ -66,7 +66,7 @@ class StudentConsumableController extends Controller
         if (!$studentConsumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentConsumable id-a ez da aurkitu'
+                'errors' => 'StudentConsumable id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -86,7 +86,7 @@ class StudentConsumableController extends Controller
         if (!$studentConsumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentConsumable id-a ez da aurkitu'
+                'errors' => 'StudentConsumable id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -117,7 +117,7 @@ class StudentConsumableController extends Controller
         if (!$studentConsumable) {
             return response()->json([
                 'success' => false,
-                'data' => 'StudentConsumable id-a ez da aurkitu'
+                'errors' => 'StudentConsumable id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -125,7 +125,7 @@ class StudentConsumableController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'StudentConsumable ezabatuta'
+            'message' => 'StudentConsumable ezabatuta'
         ], Response::HTTP_OK);
     }
     // Métodos soft delete
@@ -144,7 +144,7 @@ class StudentConsumableController extends Controller
         if (!$studentConsumable) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentConsumable ez da aurkitu (soft deleted)'
+                'errors' => 'StudentConsumable ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

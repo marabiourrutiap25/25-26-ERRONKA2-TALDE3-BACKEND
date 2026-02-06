@@ -14,10 +14,10 @@ class UsersSeeder extends Seeder
         $faker = Faker::create();
 
         User::create([
-            'username' => 'admin',
-            'email' => 'admin@example.com',
+            'username' => 'a',
+            'email' => 'a@example.com',
             'rol' => 'A',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('a')
         ]);
 
         foreach (range(1, 3) as $i) {

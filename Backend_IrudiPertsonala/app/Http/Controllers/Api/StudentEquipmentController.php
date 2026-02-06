@@ -54,7 +54,7 @@ class StudentEquipmentController extends Controller
         if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentEquipment id-a ez da aurkitu'
+                'errors' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -71,7 +71,7 @@ class StudentEquipmentController extends Controller
         if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentEquipment id-a ez da aurkitu'
+                'errors' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -99,7 +99,7 @@ class StudentEquipmentController extends Controller
         if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'data' => 'StudentEquipment id-a ez da aurkitu'
+                'errors' => 'StudentEquipment id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -107,7 +107,7 @@ class StudentEquipmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'StudentEquipment ezabatuta'
+            'message' => 'StudentEquipment ezabatuta'
         ], Response::HTTP_OK);
     }
     // Métodos soft delete
@@ -126,7 +126,7 @@ class StudentEquipmentController extends Controller
         if (!$studentEquipment) {
             return response()->json([
                 'success' => false,
-                'message' => 'StudentEquipment ez da aurkitu (soft deleted)'
+                'errors' => 'StudentEquipment ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

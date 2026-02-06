@@ -54,7 +54,7 @@ class ConsumableCategoryController extends Controller
         if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategoriaren id-a ez da aurkitu'
+                'errors' => 'Kategoriaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -71,7 +71,7 @@ class ConsumableCategoryController extends Controller
         if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategoriaren id-a ez da aurkitu'
+                'errors' => 'Kategoriaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -99,7 +99,7 @@ class ConsumableCategoryController extends Controller
         if (!$category) {
             return response()->json([
                 'success' => false,
-                'data' => 'Kategoriaren id-a ez da aurkitu'
+                'errors' => 'Kategoriaren id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -107,7 +107,7 @@ class ConsumableCategoryController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => 'Kategoria ezabatuta'
+            'message' => 'Kategoria ezabatuta'
         ], Response::HTTP_OK);
     }
     public function deleted()
@@ -125,7 +125,7 @@ class ConsumableCategoryController extends Controller
         if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategoria ez da aurkitu (soft deleted)'
+                'errors' => 'Kategoria ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 

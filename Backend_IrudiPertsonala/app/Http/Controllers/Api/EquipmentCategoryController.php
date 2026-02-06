@@ -64,7 +64,7 @@ class EquipmentCategoryController extends Controller
         if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'errors' => 'Ekipamendu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response()->json([
@@ -84,7 +84,7 @@ class EquipmentCategoryController extends Controller
         if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'errors' => 'Ekipamendu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             try {
@@ -114,7 +114,7 @@ class EquipmentCategoryController extends Controller
         if (!$equipmentCategory) {
             return response()->json([
                 'success' => false,
-                'data' => 'Ekipamendu Kategorien id-a ez da aurkitu'
+                'errors' => 'Ekipamendu Kategorien id-a ez da aurkitu'
             ], Response::HTTP_NOT_FOUND);
         } else {
             $equipmentCategory->delete();
@@ -140,7 +140,7 @@ class EquipmentCategoryController extends Controller
         if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ekipamendu Kategoria ez da aurkitu (soft deleted)'
+                'errors' => 'Ekipamendu Kategoria ez da aurkitu (soft deleted)'
             ], Response::HTTP_NOT_FOUND);
         }
 
