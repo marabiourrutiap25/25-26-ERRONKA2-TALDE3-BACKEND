@@ -13,8 +13,7 @@ jobs:
     steps:
       # Clonar el repositorio en la raíz
       - uses: actions/checkout@v4
-        with:
-          path: .
+      
       # Configurar PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,3 +34,4 @@ jobs:
       # Ejecutar los tests de Laravel
       - name: Run tests
         run: php artisan test
+        working-directory: 25-26-ERRONKA2-TALDE3-BACKEND
