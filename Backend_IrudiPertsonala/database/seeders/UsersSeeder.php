@@ -20,6 +20,13 @@ class UsersSeeder extends Seeder
             'password' => Hash::make('a')
         ]);
 
+        User::create([
+            'username' => 'u',
+            'email' => 'u@example.com',
+            'rol' => 'U',
+            'password' => Hash::make('u')
+        ]);
+
         foreach (range(1, 3) as $i) {
             User::create([
                 'username' => $faker->unique()->userName(),
