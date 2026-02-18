@@ -22,22 +22,19 @@ jobs:
           extensions: mbstring, pdo, pdo_sqlite
 
       - name: Install dependencies
-        # Forzamos a que ejecute el comando en la raíz absoluta del workspace
-        run: |
-          cd $GITHUB_WORKSPACE
-          composer install --no-interaction --prefer-dist
+        run: composer install --no-interaction --prefer-dist
+        working-directory: ${{ github.workspace }}/Backend_IrudiPertsonala
 
       - name: Prepare environment
         run: |
-          cd $GITHUB_WORKSPACE
           cp .env.example .env
           php artisan key:generate
           touch database/database.sqlite
+        working-directory: ${{ github.workspace }}/Backend_IrudiPertsonala
 
       - name: Run tests
-        run: |
-          cd $GITHUB_WORKSPACE
-          php artisan test
+        run: php artisan test
+        working-directory: ${{ github.workspace }}/Backend_IrudiPertsonala
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
