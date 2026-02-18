@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        # Eliminamos cualquier configuración de path aquí
+        # Eliminamos cualquier configuración de path aqu
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
