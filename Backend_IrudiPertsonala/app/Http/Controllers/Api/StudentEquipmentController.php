@@ -16,7 +16,7 @@ class StudentEquipmentController extends Controller
             'student_id' => 'required|exists:students,id',
             'equipment_id' => 'required|exists:equipment,id',
             'start_datetime' => 'required|date',
-            'end_datetime' => 'required|date|after:start_datetime',
+            'end_datetime' => 'nullable|date|after:start_datetime',
         ];
     }
 
