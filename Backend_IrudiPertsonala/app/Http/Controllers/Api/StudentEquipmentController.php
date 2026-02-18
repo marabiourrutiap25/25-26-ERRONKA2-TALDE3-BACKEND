@@ -43,7 +43,7 @@ class StudentEquipmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'StudentEquipment sortu egin da'
+            'message' => 'Mugimendua sortu egin da'
         ], Response::HTTP_CREATED);
     }
 

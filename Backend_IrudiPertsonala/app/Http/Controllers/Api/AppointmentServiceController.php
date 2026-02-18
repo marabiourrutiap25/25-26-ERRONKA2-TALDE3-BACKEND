@@ -42,7 +42,7 @@ class AppointmentServiceController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'AppointmentService sortu egin da'
+            'message' => 'Hitzordua konfirmatu da'
         ], Response::HTTP_CREATED);
     }
 
