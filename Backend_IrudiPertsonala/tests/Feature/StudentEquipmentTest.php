@@ -134,7 +134,7 @@ test('Post StudentEquipment erantzun egokia bueltatzen du', function () {
     $response->assertStatus(201);
     $response->assertExactJson([
         'success' => true,
-        'message' => 'StudentEquipment sortu egin da'
+        'message' => 'Mugimendua sortu egin da'
     ]);
 });
 

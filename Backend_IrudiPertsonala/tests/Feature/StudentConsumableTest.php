@@ -126,7 +126,7 @@ test('Post StudentConsumable erantzun egokia bueltatzen du', function () {
     $response->assertStatus(201);
     $response->assertExactJson([
         'success' => true,
-        'message' => 'StudentConsumable sortu egin da'
+        'message' => 'Mugimendua sortu egin da'
     ]);
 });
 
