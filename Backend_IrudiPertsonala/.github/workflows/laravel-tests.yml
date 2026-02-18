@@ -11,28 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # PASO CLAVE: Eliminamos cualquier configuración de 'path' previa
       - name: Checkout code
         uses: actions/checkout@v4
+        # Eliminamos cualquier configuración de path aquí
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          extensions: mbstring, pdo, pdo_sqlite, bcmath, ctype, fileinfo, json, openssl, tokenizer, xml
+          extensions: mbstring, pdo, pdo_sqlite
 
       - name: Install dependencies
-        # Añadimos --no-scripts para evitar errores si artisan intenta ejecutarse antes de tiempo
-        run: composer install --no-interaction --prefer-dist --no-scripts
+        # Forzamos a que ejecute el comando en la raíz absoluta del workspace
+        run: |
+          cd $GITHUB_WORKSPACE
+          composer install --no-interaction --prefer-dist
 
       - name: Prepare environment
         run: |
+          cd $GITHUB_WORKSPACE
           cp .env.example .env
           php artisan key:generate
           touch database/database.sqlite
 
       - name: Run tests
-        run: php artisan test
+        run: |
+          cd $GITHUB_WORKSPACE
+          php artisan test
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
