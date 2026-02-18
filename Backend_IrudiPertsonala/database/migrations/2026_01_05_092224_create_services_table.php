@@ -17,8 +17,9 @@ return new class extends Migration
             $table->decimal('price');
             $table->decimal('home_price');
             $table->integer('duration')->nullable();
-            $table->foreignId('service_categories_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

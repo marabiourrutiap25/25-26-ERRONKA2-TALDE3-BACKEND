@@ -18,10 +18,10 @@ class StudentEquipmentsSeeder extends Seeder
         $faker = Faker::create();
 
         $students = Student::all();
-        $equipments = Equipment::all();
+        $equipment = Equipment::all();
 
-        if ($students->isEmpty() || $equipments->isEmpty()) {
-            $this->command->info('No students or equipments found, seeding aborted.');
+        if ($students->isEmpty() || $equipment->isEmpty()) {
+            $this->command->info('No students or equipmens found, seeding aborted.');
             return;
         }
 
@@ -31,7 +31,7 @@ class StudentEquipmentsSeeder extends Seeder
 
             DB::table('student_equipments')->insert([
                 'student_id' => $students->random()->id,
-                'equipment_id' => $equipments->random()->id,
+                'equipment_id' => $equipment->random()->id,
                 'start_datetime' => $start,
                 'end_datetime' => $end,
                 'created_at' => now(),

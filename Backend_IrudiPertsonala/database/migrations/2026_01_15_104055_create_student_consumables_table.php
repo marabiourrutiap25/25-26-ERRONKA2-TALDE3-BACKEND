@@ -12,11 +12,12 @@ return new class extends Migration {
     {
         Schema::create('student_consumables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('consumable_id')->constrained();
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('consumable_id')->constrained()->onDelete('cascade');;
             $table->date('date');
             $table->integer('quantity')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

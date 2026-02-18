@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Service;
+use Illuminate\Http\Request;
+use League\Config\Exception\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+
+class ServiceController extends Controller
+{
+    /**
+     * Reglas de validación reutilizables
+     */
+    private function validationRules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'home_price' => 'required|numeric|min:0',
+            'duration' => 'nullable|integer|min:0',
+            'service_category_id' => 'required|integer|exists:service_categories,id',
+        ];
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $services = Service::all();
+        return response()->json([
+            'success' => true,
+            'data' => $services
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate($this->validationRules());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Datuak faltatzen dira.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        Service::create($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Zerbitzua sortu egin da',
+        ], Response::HTTP_CREATED);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Zerbitzuaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            return response()->json([
+                'success' => true,
+                'data' => $service
+            ], Response::HTTP_OK);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Ekipamenduen id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            try {
+                $validated = $request->validate($this->validationRules());
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => 'Datuak faltatzen dira.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $service->update($validated);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Zerbitzua eguneratu da',
+            ], Response::HTTP_OK);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $service = Service::find($id);
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Zerbitzuaren id-a ez da aurkitu'
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            $service->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Zerbitzua ezabatuta'
+            ], Response::HTTP_OK);
+        }
+    }
+    public function deleted()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Service::onlyTrashed()->get()
+        ], Response::HTTP_OK);
+    }
+
+    public function deletedShow(string $id)
+    {
+        $service = Service::onlyTrashed()->find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Zerbitzua ez da aurkitu (soft deleted)'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $service
+        ], Response::HTTP_OK);
+    }
+
+}

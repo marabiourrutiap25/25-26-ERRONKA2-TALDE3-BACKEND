@@ -4,11 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('consumables', function (Blueprint $table) {
@@ -20,14 +16,18 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('min_stock')->nullable();
             $table->date('expiration_date')->nullable();
-            $table->foreignId('consumables_categorie_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('consumable_category_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+
             $table->timestamps();
+            $table->softDeletes();
         });
+
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('consumables');

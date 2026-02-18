@@ -10,9 +10,9 @@ class DatabaseSeeder extends Seeder
     {
         // Categorías primero
         $this->call([
-            ConsumablesCategorySeeder::class,
-            EquipmentCategorySeeder::class,
-            ServiceCategorySeeder::class,
+            ConsumableCategoriesSeeder::class,
+            EquipmentCategoriesSeeder::class,
+            ServiceCategoriesSeeder::class,
             GroupsSeeder::class,
         ]);
 

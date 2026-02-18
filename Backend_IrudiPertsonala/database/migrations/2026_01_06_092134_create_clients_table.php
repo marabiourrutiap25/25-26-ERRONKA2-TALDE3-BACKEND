@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->boolean('home_client');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

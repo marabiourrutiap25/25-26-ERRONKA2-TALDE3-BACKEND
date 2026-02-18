@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('student_equipments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('equipment_id')->constrained();
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('equipment_id')->constrained()->onDelete('cascade');;
             $table->dateTime('start_datetime');
-            $table->dateTime('end_datetime');
+            $table->dateTime('end_datetime')->nullable();;
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
