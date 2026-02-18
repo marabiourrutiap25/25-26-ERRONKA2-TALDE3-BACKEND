@@ -1,0 +1,39 @@
+name: Laravel Tests
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Quitamos el 'path: .' para que el código caiga en la raíz real
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo, pdo_sqlite, bcmath, ctype, fileinfo, json, openssl, tokenizer, xml
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Prepare environment
+        run: |
+          # Si no tienes .env.testing, usa el .env.example que suele venir en Laravel
+          cp .env.example .env
+          php artisan key:generate
+          # Creamos una base de datos SQLite vacía para los tests
+          touch database/database.sqlite
+
+      - name: Run tests
+        # Forzamos a que use SQLite en memoria o el archivo que creamos para que no falle
+        run: php artisan test --env=testing
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
