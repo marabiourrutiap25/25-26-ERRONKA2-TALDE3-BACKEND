@@ -13,7 +13,7 @@ class ShiftFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->word(),
+            'type' => fake()->randomElement(['M', 'G']),
             'data' => fake()->date(),
             'student_id' => Student::factory(),
         ];

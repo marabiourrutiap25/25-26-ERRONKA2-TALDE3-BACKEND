@@ -25,7 +25,7 @@ class ShiftsSeeder extends Seeder
 
         foreach (range(1, 7) as $index) {
             Shift::create([
-                'type' => $faker->randomElement(['A', 'B', 'C']),
+                'type' => $faker->randomElement(['M', 'G']),
                 'data' => $faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
                 'student_id' => $students->random()->id,
             ]);
