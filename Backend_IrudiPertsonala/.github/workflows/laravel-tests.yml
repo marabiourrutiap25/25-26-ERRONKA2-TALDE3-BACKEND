@@ -1,0 +1,43 @@
+name: Laravel Tests
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # Eliminamos cualquier configuración de path aquí
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo, pdo_sqlite
+
+      - name: Install dependencies
+        # Forzamos a que ejecute el comando en la raíz absoluta del workspace
+        run: |
+          cd $GITHUB_WORKSPACE
+          composer install --no-interaction --prefer-dist
+
+      - name: Prepare environment
+        run: |
+          cd $GITHUB_WORKSPACE
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+
+      - name: Run tests
+        run: |
+          cd $GITHUB_WORKSPACE
+          php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
