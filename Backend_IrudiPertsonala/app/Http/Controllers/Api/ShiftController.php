@@ -13,7 +13,7 @@ class ShiftController extends Controller
     private function validationRules(): array
     {
         return [
-            'type' => 'required|string|in:A,B,C',
+            'type' => 'required|string|in:G,M',
             'data' => 'required|date',
             'student_id' => 'required|exists:students,id',
         ];
